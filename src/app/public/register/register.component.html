@@ -1,0 +1,185 @@
+<app-topbar-without-login></app-topbar-without-login>
+
+<div class="container-fluid p-0">
+  <div class="row g-0">
+    <div class="col-xl-3">
+      <div class="register-full-page-content p-md-5 p-4">
+        <div class="w-100">
+          <div class="d-flex flex-column h-100">
+            <div class="my-auto">
+              <div>
+                <h3 class="fw-bold">{{'PAGE_REGISTER.TITLE' | translate}}</h3>
+                <p class="text-muted">{{'PAGE_REGISTER.SUBTITLE' | translate}}</p>
+              </div>
+              <div class="row mt-4">
+                <form [formGroup]="form" (submit)="doRegister()">
+                  <div class="mb-3">
+                    <label for="email">{{'PAGE_REGISTER.LABEL_EMAIL' | translate}}</label>
+                    <input
+                      [ngClass]="{ 'is-invalid': (form.get('email').invalid && (form.get('email').touched || formSubmitted)) }"
+                      type="email"
+                      class="form-control" id="email" formControlName="email"
+                      placeholder="{{'PAGE_REGISTER.INPUT_TXT_PLACEHOLDER_EMAIL' | translate }}" required>
+                    <div *ngIf="form.get('email').touched && !form.get('email').dirty || formSubmitted"
+                         class="invalid-feedback">{{'REQUIRED_FIELD' | translate }}</div>
+                    <div *ngIf="form.get('email').touched && form.get('email').invalid && form.get('email').dirty"
+                         class="invalid-feedback">{{'INVALID_FORMAT_EMAIL' | translate }}</div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="d-flex align-items-center" for="password">{{'PAGE_REGISTER.LABEL_PASSWORD' | translate}}
+                      <i class='bx bx-info-circle text-warning fs-5 mx-1 pointer'
+                         ngbTooltip="More than 8 characters, contain at least 1 captial letter, symbol and number"></i>
+                    </label>
+                    <div class="input-group">
+                      <input
+                        [ngClass]="{ 'is-invalid': (form.get('password').invalid && (form.get('password').touched || formSubmitted)) }"
+                        type="password" class="form-control" id="password" formControlName="password"
+                        [type]="showPassword ? 'text' : 'password'"
+                        placeholder="{{'PAGE_REGISTER.INPUT_TXT_PLACEHOLDER_PASSWORD' | translate }}" required>
+                      <button class="btn btn-light ms-0 bg-primary text-light border-0" type="button"
+                              (click)="showPassword = showPassword != true">
+                        <i class="mdi mdi-eye-outline fs-4" [hidden]="showPassword"></i>
+                        <i class="mdi mdi-eye-off-outline fs-4" [hidden]="!showPassword"></i>
+                      </button>
+                      <div *ngIf="form.get('password').touched && !form.get('password').dirty || formSubmitted"
+                           class="invalid-feedback">{{'REQUIRED_FIELD' | translate }}</div>
+                      <div
+                        *ngIf="form.get('password').touched && form.get('password').invalid && form.get('password').dirty"
+                        class="invalid-feedback">{{'INVALID_FORMAT_PASSWORD' | translate }}</div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="confirmPassword">{{'PAGE_REGISTER.LABEL_CONFIRM_PASSWORD' | translate}}</label>
+                    <div class="input-group">
+                      <input
+                        [ngClass]="{ 'is-invalid': (form.errors?.['mismatch'] && (form.get('confirmPassword').touched || formSubmitted)) }"
+                        type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword"
+                        [type]="showConfirmPassword ? 'text' : 'password'"
+                        placeholder="{{'PAGE_REGISTER.INPUT_TXT_PLACEHOLDER_CONFIRM_PASSWORD' | translate }}"
+                        required>
+                      <button class="btn btn-light ms-0 bg-primary text-light border-0" type="button"
+                              (click)="showConfirmPassword = showConfirmPassword != true">
+                        <i class="mdi mdi-eye-outline fs-4" [hidden]="showConfirmPassword"></i>
+                        <i class="mdi mdi-eye-off-outline fs-4" [hidden]="!showConfirmPassword"></i>
+                      </button>
+                      <div
+                        *ngIf="form.get('confirmPassword').touched && !form.get('confirmPassword').dirty || formSubmitted"
+                        class="invalid-feedback">{{'REQUIRED_FIELD' | translate }}</div>
+                      <div
+                        *ngIf="form.errors?.['mismatch'] && (form.get('confirmPassword').touched || form.get('confirmPassword').dirty)"
+                        class="invalid-feedback">{{'PASSWORD_MISMATCH' | translate }}</div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="name">{{'PAGE_REGISTER.LABEL_NAME' | translate}}</label>
+                    <input
+                      [ngClass]="{ 'is-invalid': (form.get('name').invalid && (form.get('name').touched || formSubmitted)) }"
+                      type="text" class="form-control" id="name" formControlName="name"
+                      placeholder="{{'PAGE_REGISTER.INPUT_TXT_PLACEHOLDER_NAME' | translate}}" required>
+                    <div *ngIf="form.get('name').invalid && form.get('name').touched || formSubmitted"
+                         class="invalid-feedback">{{'REQUIRED_FIELD' | translate }}</div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="mobileNo">{{'PAGE_REGISTER.LABEL_MOBILE' | translate}}</label>
+                    <div class="inner mb-3 row">
+                      <div class="col-12">
+                        <input
+                          [ngClass]="{ 'is-invalid': (form.get('mobileNo').invalid && (form.get('mobileNo').touched || formSubmitted)) }"
+                          type="tel" class="inner form-control" id="mobileNo" formControlName="mobileNo"
+                          placeholder="{{'PAGE_REGISTER.INPUT_TXT_PLACEHOLDER_MOBILE' | translate}}" required>
+                        <div *ngIf="form.get('mobileNo').touched && !form.get('mobileNo').dirty || formSubmitted"
+                             class="invalid-feedback">{{'REQUIRED_FIELD' | translate }}</div>
+                        <div
+                          *ngIf="form.get('mobileNo').touched && form.get('mobileNo').invalid && form.get('mobileNo').dirty"
+                          class="invalid-feedback">{{'INVALID_FORMAT_MOBILE' | translate }}</div>
+                      </div>
+                      <!--                      <div class="col-4">-->
+                      <!--                        <div class="d-grid" [ngbTooltip]="sentTAC ? countdownMessage + countdown + 's' : ''">-->
+                      <!--                          <button type="button" class="btn btn-outline-primary inner" [disabled]="sentTAC" (click)="requestTAC()">-->
+                      <!--                            {{'PAGE_REGISTER.BUTTON_LABEL_SEND_TAC' | translate}} <span class="fa fa-spinner fa-pulse fa-1x fa-fw" [hidden]="!sentTAC"></span>-->
+                      <!--                          </button>-->
+                      <!--                        </div>-->
+                      <!--                      </div>-->
+                    </div>
+                    <!--                    <div class="inner mb-3 row" *ngIf="sentTAC">-->
+                    <!--                      <label for="tac">{{'PAGE_REGISTER.LABEL_TAC' | translate}}</label>-->
+                    <!--                      <div class="col-12">-->
+                    <!--                        <input type="text" class="inner form-control" id="tac" formControlName="tac" formControlName="tac" [placeholder]="tacMessage" required>-->
+                    <!--                      </div>-->
+                    <!--                    </div>-->
+                  </div>
+
+                  <div class="mb-3" [ngClass]="{ 'is-invalid': form.get('isCitizen').invalid && formSubmitted }">
+                    <label class="d-block mb-3">{{'PAGE_REGISTER.LABEL_NATIONALITY' | translate}} :</label>
+
+                    <div class="form-check form-check-inline">
+                      <input [ngClass]="{ 'is-invalid': (form.get('isCitizen').invalid && formSubmitted) }"
+                             class="form-check-input" type="radio" name="isCitizen" id="citizenRadio" value="true"
+                             formControlName="isCitizen" required>
+                      <label class="form-check-label"
+                             for="citizenRadio">{{'PAGE_REGISTER.INPUT_RDB_CITIZEN' | translate}}</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input [ngClass]="{ 'is-invalid': (form.get('isCitizen').invalid && formSubmitted) }"
+                             class="form-check-input" type="radio" name="isCitizen" id="nCitizenRadio" value="false"
+                             formControlName="isCitizen" required>
+                      <label class="form-check-label"
+                             for="nCitizenRadio">{{'PAGE_REGISTER.INPUT_RDB_NON_CITIZEN' | translate}}</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3" *ngIf="form.get('isCitizen').value == 'true'">
+                    <label for="nricNo">{{'PAGE_REGISTER.LABEL_IC_NUMBER' | translate}}</label>
+                    <input
+                      [ngClass]="{ 'is-invalid': (form.get('nricPassportNo').invalid && (form.get('nricPassportNo').touched || formSubmitted)) }"
+                      type="text" class="form-control" id="nricNo" formControlName="nricPassportNo"
+                      placeholder="{{'PAGE_REGISTER.INPUT_TXT_IC' | translate}}" required>
+                    <div
+                      *ngIf="form.get('nricPassportNo').invalid && form.get('nricPassportNo').touched || formSubmitted"
+                      class="invalid-feedback">{{'REQUIRED_FIELD' | translate }}</div>
+                  </div>
+
+                  <div class="mb-3" *ngIf="form.get('isCitizen').value == 'false'">
+                    <label for="passportNo">{{'PAGE_REGISTER.LABEL_PASSPORT_NUMBER' | translate}}</label>
+                    <input
+                      [ngClass]="{ 'is-invalid': (form.get('nricPassportNo').invalid && (form.get('nricPassportNo').touched || formSubmitted)) }"
+                      type="text" class="form-control" id="passportNo" formControlName="nricPassportNo"
+                      placeholder="{{'PAGE_REGISTER.INPUT_TXT_PASSPORT' | translate}}" required>
+                    <div
+                      *ngIf="form.get('nricPassportNo').invalid && form.get('nricPassportNo').touched || formSubmitted"
+                      class="invalid-feedback">{{'REQUIRED_FIELD' | translate }}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-6 d-grid">
+                      <button class="btn btn-outline-warning btn-rounded"
+                              type="reset">{{'PAGE_REGISTER.BUTTON_LABEL_RESET' | translate}}</button>
+                    </div>
+                    <div class="col-6 d-grid">
+                      <button class="btn btn-warning btn-rounded"
+                              type="submit">{{'PAGE_REGISTER.BUTTON_LABEL_SIGNUP' | translate}}</button>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-9">
+      <div class="d-none d-lg-block">
+        <div class="register-full-bg pt-lg-5 p-4">
+          <div class="w-100">
+            <div class="bg-overlay"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

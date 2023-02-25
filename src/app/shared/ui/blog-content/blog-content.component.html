@@ -1,0 +1,17 @@
+<div class="container-fluid p-5" *ngIf="blog">
+  <div class="row align-items-center justify-content-center">
+    <div class="col-12 text-center">
+      <img class="rounded img-fluid" [src]="env.apiUrl + blog.image" *ngIf="blog.image" alt="Logo">
+      <img class="rounded img-fluid" src="assets/images/icms/mcmc-logo-2.png" [hidden]="blog.image" alt="Logo">
+      <h2 class="my-3 fw-bolder">{{blog.type}}</h2>
+      <h3 class="fw-semibold text-start">{{blog.title}}</h3>
+      <h5 class="text-start mb-4">{{blog.createdDate}}</h5>
+      <p class="text-start">{{blog.content}}</p>
+    </div>
+  </div>
+</div>
+<div class="container-fluid p-5" [hidden]="blog">
+  <div class="row-cols-auto text-center">
+    <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+  </div>
+</div>

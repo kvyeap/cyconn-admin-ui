@@ -1,0 +1,105 @@
+{
+  "PAGE_REGISTER":
+  {
+    "TITLE": "Hello!",
+    "SUBTITLE": "Sign up for an account to log / keep track of your complaints",
+    "LABEL_EMAIL": "Email Address",
+    "LABEL_PASSWORD": "Password",
+    "LABEL_CONFIRM_PASSWORD": "Confirm Password",
+    "LABEL_NAME": "Full Name",
+    "LABEL_MOBILE": "Mobile Number",
+    "LABEL_NATIONALITY": "Nationality",
+    "LABEL_IC_NUMBER": "IC Number",
+    "LABEL_TAC": "TAC",
+    "INPUT_TXT_PLACEHOLDER_EMAIL": "johndoe@email.com",
+    "INPUT_TXT_PLACEHOLDER_PASSWORD": "Hover icon above for recommended password pattern",
+    "INPUT_TXT_PLACEHOLDER_CONFIRM_PASSWORD": "Enter above password again",
+    "INPUT_TXT_PLACEHOLDER_NAME": "John Doe",
+    "INPUT_TXT_PLACEHOLDER_MOBILE": "0123456789",
+    "INPUT_RDB_CITIZEN": "Citizen",
+    "INPUT_RDB_NON_CITIZEN": "Non-Citizen",
+    "INPUT_TXT_IC": "IC / Passport Number",
+    "INPUT_TXT_TAC": "Enter TAC sent to mobile ({mobileNo})",
+    "BUTTON_LABEL_SEND_TAC": "SEND TAC",
+    "BUTTON_TOOLTIP_SEND_TAC": "Try again in ",
+    "REGISTER_SUCCESSFUL": "Registration Successful",
+    "BUTTON_LABEL_SIGNUP": "Sign Up",
+    "BUTTON_LABEL_RESET": "Reset"
+  },
+  "REQUIRED_FIELD": "Required field",
+  "INVALID_FORMAT_EMAIL": "Invalid email format",
+  "INVALID_FORMAT_PASSWORD": "Invalid password format",
+  "INVALID_FORMAT_MOBILE": "Invalid mobile format",
+  "PASSWORD_MISMATCH": "Password mismatch",
+  "ERROR_STATUS": [
+    {
+      "E0001": "Please fill in required fields"
+    },
+    {
+      "E0002": "Invalid Mobile Format"
+    },
+    {
+      "E0003": "Invalid Email Format"
+    },
+    {
+      "E0004": "Invalid Password Format"
+    },
+    {
+      "E0005": "Invalid TAC"
+    },
+    {
+      "E0006": "Something is wrong, please contact the administrator"
+    },
+    {
+      "E0007": "Email has been taken"
+    },
+    {
+      "E0008": "Please wait and try again shortly."
+    },
+    {
+      "E0009": "Incorrect email/password"
+    },
+    {
+      "E0010": "Not Found"
+    },
+    {
+      "E0011": "No user role assigned"
+    },
+    {
+      "E0012": "Invalid user"
+    },
+    {
+      "E0013": "Email is not verified"
+    },
+    {
+      "E0014": "Server error"
+    },
+    {
+      "E0015": "TAC Expired"
+    },
+    {
+      "E0016": "Unable to create case"
+    },
+    {
+      "E0017": "Unable to update case"
+    },
+    {
+      "E0018": "Unable to update case regulatory action"
+    },
+    {
+      "E0019": "Unable to create case comment"
+    },
+    {
+      "E0020": "Unable to create case resolution"
+    },
+    {
+      "E0021": "Unregistered user"
+    },
+    {
+      "E0022": "NRIC / Passport No. has been taken"
+    },
+    {
+      "E0023": "Mobile no. has been taken"
+    }
+  ]
+}

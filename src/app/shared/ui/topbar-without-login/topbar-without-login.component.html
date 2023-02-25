@@ -1,0 +1,87 @@
+<div class="container-fluid bg-white overflow-visible">
+  <div class="row public-navbar px-2">
+    <div class="col-12">
+      <div class="row px-lg-5 py-3">
+        <div class="col-3">
+<!--          <small class="text-white d-block d-lg-none pointer" (click)="toggleLang()">ENG | MY</small>-->
+<!--          <span class="fs-5 text-white d-none d-lg-block pointer" (click)="toggleLang()">ENG | MY</span>-->
+        </div>
+        <div class="col-9 text-end">
+          <small class="ps-3 text-white d-block d-lg-none">
+            <a class="pointer text-white" href="tel:1800-188-030">1800-188-030</a>
+            <span> | </span>
+            <a class="pointer text-white" href="mailto:aduanskmm@mcmc.gov.my">aduanskmm@mcmc.gov.my</a>
+          </small>
+          <span class="fs-5 ps-3 text-white d-none d-lg-block">
+            <a class="pointer text-white" href="tel:1800-188-030">1800-188-030</a>
+            <span> | </span>
+            <a class="pointer text-white" href="mailto:aduanskmm@mcmc.gov.my">aduanskmm@mcmc.gov.my</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-0">
+        <div class="d-block d-lg-none">
+          <div class="row">
+            <div class="col-6">
+              <img class="rounded-circle avatar-md pointer" src="assets/images/icms/mcmc-logo.png" alt="Logo" routerLink="/public/main">
+            </div>
+            <div class="col-6 text-end">
+              <div class="dropdown d-inline-block" ngbDropdown>
+                <button type="button" class="btn header-item text-black" ngbDropdownToggle id="page-header-user-dropdown">
+                  <span class="d-inline-block ms-1">MENU</span>
+                  <i class="mdi mdi-chevron-down d-inline-block"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                  <a class="dropdown-item" routerLink="/public/main">HOME</a>
+                  <a class="dropdown-item" routerLink="/public/forum">FORUM</a>
+<!--                  <a class="dropdown-item">USER GUIDE</a>-->
+                  <a class="dropdown-item" routerLink="/public/faq">FAQ</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item text-danger" routerLink="/public/login">LOGIN</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-none d-lg-block">
+          <div class="row px-lg-5">
+            <div class="col-lg-6">
+              <div class="d-flex align-items-center">
+                <div class="flex-shrink-0 me-2">
+                  <img class="rounded-circle avatar-lg pointer" src="assets/images/icms/mcmc-logo.png" alt="Logo" routerLink="/public/main">
+                </div>
+                <div class="flex-grow-1">
+                  <h3 class="fw-semibold">MCMC Consumer Redress Portal</h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 text-end pt-4">
+              <ul class="list-inline">
+                <li class="list-inline-item">
+                  <button type="button" class="btn btn-link me-3 fs-4" routerLink="/public/main">HOME</button>
+                </li>
+                <li class="list-inline-item">
+                  <button type="button" class="btn btn-link me-3 fs-4" routerLink="/public/forum">FORUM</button>
+                </li>
+<!--                <li class="list-inline-item">-->
+<!--                  <button type="button" class="btn btn-link me-3 fs-4">USER GUIDE</button>-->
+<!--                </li>-->
+                <li class="list-inline-item">
+                  <button type="button" class="btn btn-link me-3 fs-4" routerLink="/public/faq">FAQ</button>
+                </li>
+                <li class="list-inline-item">
+                  <button type="button" class="btn btn-lg btn-outline-warning btn-rounded w-md" routerLink="/public/login">LOGIN</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

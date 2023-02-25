@@ -1,0 +1,44 @@
+<div class="container-fluid bg-light">
+  <div class="row" *ngIf="notifications && notifications.length == 0">
+    <div class="col-lg-12">
+      <div class="text-center">
+        <div class="row justify-content-center mt-5">
+          <div class="col-sm-4">
+            <div class="maintenance-img">
+              <img src="assets/images/coming-soon.svg" alt="" class="img-fluid mx-auto d-block">
+            </div>
+          </div>
+        </div>
+        <h4 class="fw-bold">NO NOTIFICATIONS FOUND</h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center pt-4 px-3 px-lg-0" *ngIf="notifications && notifications.length > 0">
+    <div class="col-12 col-lg-8">
+      <div class="card rounded-4">
+        <div class="card-body px-1 pb-5">
+          <div class="row mb-3">
+            <div class="col-12 px-4 text-end">
+              <a class="card-link pointer fw-bold" (click)="readAll()">Mark all as read</a>
+            </div>
+          </div>
+          <div class="row px-2">
+            <div class="col-12 px-0">
+              <div class="border-bottom border-1 border-info"></div>
+            </div>
+          </div>
+          <div class="row px-2" *ngFor="let item of notifications">
+            <div class="col-12 p-3 pointer" [ngClass]="{'bg-info bg-opacity-10': !item.isRead}" (click)="read(item)">
+              <p class="text-muted mb-2 fs-5">{{item.content}}</p>
+              <p class="text-muted mb-0">{{item.timestamp | date: 'dd-MMM-yyyy hh:mm a'}}</p>
+            </div>
+            <div class="col-12 px-0">
+              <div class="border-bottom border-1 border-info"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

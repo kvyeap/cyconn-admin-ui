@@ -1,0 +1,50 @@
+<form [formGroup]="form" (submit)="login()">
+  <div class="form-floating my-2">
+    <input type="email" class="form-control" id="email" placeholder="Email Address" name="email"
+           formControlName="email">
+    <label for="email">Email Address</label>
+  </div>
+  <div class="input-group text-dark mb-3">
+    <div class="form-floating">
+      <input [type]="showPassword ? 'text' : 'password'" class="form-control" id="password" placeholder="Password"
+             name="password"
+             formControlName="password">
+      <label for="password">Password</label>
+    </div>
+    <button class="btn btn-light ms-0 bg-primary text-light border-0" type="button" (click)="showPassword = showPassword != true">
+      <i class="mdi mdi-eye-outline fs-4" [hidden]="showPassword"></i>
+      <i class="mdi mdi-eye-off-outline fs-4" [hidden]="!showPassword"></i>
+    </button>
+  </div>
+  <div class="row">
+    <div class="col-12 text-end">
+      <p class="float-end card-link" routerLink="/public/forget-password">Forgot Password?</p>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-6 d-grid">
+      <button type="submit" class="btn btn-warning btn-rounded btn-lg">Login</button>
+    </div>
+    <div class="col-6 d-grid">
+      <button class="btn btn-outline-warning btn-rounded btn-lg" routerLink="/public/register">Sign Up</button>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div id="g_id_onload"
+         data-client_id="899155101499-gt8nri32urf3ko8cdpnu9g5ljkedrj1m.apps.googleusercontent.com"
+         data-context="signin"
+         data-ux_mode="popup"
+         data-itp_support="true"
+         data-auto_select="false">
+    </div>
+    <div id="signInButton"></div>
+    <!--    <div class="g_id_signin"-->
+    <!--         data-type="standard"-->
+    <!--         data-shape="pill"-->
+    <!--         data-theme="filled_blue"-->
+    <!--         data-text="signin_with"-->
+    <!--         data-size="large"-->
+    <!--         data-logo_alignment="left">-->
+    <!--    </div>-->
+  </div>
+</form>

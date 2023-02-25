@@ -1,0 +1,331 @@
+<div class="card rounded-3">
+  <div class="card-body">
+    <div class="row font-size fst-italic text-info mb-3">
+      <div class="col-6 text-start">
+        (*) Asterisk-marked fields are mandatory
+      </div>
+      <div *ngIf="lastUpdatedDate" class="col-6 text-end">Last updated on : {{lastUpdatedDate}}</div>
+    </div>
+    <form [formGroup]="form" (submit)="doSubmit()">
+      <div class="row is-invalid">
+        <div class="col-lg-5">
+          <div class="container-fluid text-center mb-3">
+            <div class="row justify-content-center">
+              <div class="col-12">
+                <input type="file" accept="image/*" (change)="onFileSelected($event)" #fileInput hidden>
+                <i class="bx bxs-user-circle text-light hovering-effect pointer image-profile"
+                   [hidden]="profileInfo?.image || form.get('image')?.value"
+                   ngbTooltip="Click to update picture" placement="right" (click)="fileInput.click()"></i>
+                <img class="rounded-circle hovering-effect image-profile pointer" *ngIf="profileInfo?.image || form.get('image')?.value"
+                     [src]="form.get('image')?.value ? form.get('image')?.value : profileInfo.image" alt="Logo"
+                     ngbTooltip="Click to update picture" placement="right" (click)="fileInput.click()">
+              </div>
+              <div class="col-12 mt-2" *ngIf="selectedFile">
+                <button class="btn btn-outline-warning mx-1" type="button" (click)="resetImage()">Revert</button>
+                <button class="btn btn-success mx-1" type="button" (click)="uploadImage()">Confirm</button>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid mb-3">
+            <label for="name">Name *</label>
+            <input type="text" class="form-control" id="name" formControlName="name" [value]="form.get('name')"
+                   [ngClass]="{ 'is-invalid': formSubmitted && form.get('name').invalid }"
+                   required>
+            <div *ngIf="formSubmitted && form.get('name').invalid" class="invalid-feedback">
+              Required
+            </div>
+          </div>
+          <div class="container-fluid mb-3">
+            <div class="row">
+              <div class="col-lg-6">
+                <label for="salutation">Salutation *</label>
+                <select id="salutation" class="form-select" formControlName="salutation"
+                        [ngClass]="{ 'is-invalid': formSubmitted && form.get('salutation').invalid }">
+                  <option [ngValue]="null">Choose...</option>
+                  <option *ngFor="let item of salutationList" [ngValue]="item.name">{{item.name}}</option>
+                </select>
+                <div *ngIf="formSubmitted && form.get('salutation').invalid"
+                     class="invalid-feedback">Required
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <label for="gender">Gender *</label>
+                <select id="gender" class="form-select" formControlName="gender"
+                        [ngClass]="{ 'is-invalid': formSubmitted && form.get('gender').invalid }">
+                  <option [ngValue]="null">Choose...</option>
+                  <option [ngValue]="'Male'">Male</option>
+                  <option [ngValue]="'Female'">Female</option>
+                </select>
+                <div *ngIf="formSubmitted && form.get('gender').invalid"
+                     class="invalid-feedback">Required
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid mb-3">
+            <div class="row">
+              <div class="col-lg-6">
+                <label for="dateOfBirth">Date of Birth *</label>
+                <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth"
+                       [value]="form.get('dateOfBirth')" (blur)="calculateAge()" [max]="getMaxDate()"
+                       [ngClass]="{ 'is-invalid': formSubmitted && form.get('dateOfBirth').invalid }"
+                       required>
+                <div *ngIf="formSubmitted && form.get('dateOfBirth').invalid" class="invalid-feedback">
+                  Required
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <label for="age">Age *</label>
+                <input type="text" class="form-control" id="age" formControlName="age" [value]="form.get('age')"
+                       [ngClass]="{ 'is-invalid': formSubmitted && (form.get('age').invalid || form.get('age').value == 0) }"
+                       required>
+                <div *ngIf="formSubmitted && (form.get('age').invalid || form.get('age').value == 0)"
+                     class="invalid-feedback">
+                  Required
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid mb-3">
+            <label for="citizenRadio">Resident Status *</label>
+            <div class="input-group">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="isCitizen" id="citizenRadio" value="true"
+                       formControlName="isCitizen">
+                <label class="form-check-label" for="citizenRadio">Citizen</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="isCitizen" id="nCitizenRadio" value="false"
+                       formControlName="isCitizen">
+                <label class="form-check-label" for="nCitizenRadio">Non-Citizen</label>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid mb-3">
+            <label for="nricPassportNo">NRIC / Passport No *</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="nricPassportNo" formControlName="nricPassportNo"
+                     [value]="form.get('nricPassport')"
+                     [ngClass]="{ 'is-invalid': formSubmitted && form.get('nricPassportNo').invalid }">
+              <div *ngIf="formSubmitted && form.get('nricPassportNo').invalid"
+                   class="invalid-feedback">Required
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid mb-3">
+            <label for="email">Email *</label>
+            <div class="input-group">
+              <input type="email" class="form-control" id="email" formControlName="email" [value]="form.get('email')"
+                     [ngClass]="{ 'is-invalid': formSubmitted && form.get('email').invalid }"
+                     required>
+              <button [ngClass]="{'input-group-text': isEmailVerified, 'btn btn-primary': !isEmailVerified}"
+                      [disabled]="isEmailVerified" type="button" (click)="verifyEmail()">
+                <span *ngIf="!isEmailVerified">Verify <i class="fa fa-spinner fa-pulse fa-1x fa-fw"
+                                                         [hidden]="!sentTAC"></i></span>
+                <span *ngIf="isEmailVerified">Verified <i class="bx bx-check-circle text-success"></i></span>
+              </button>
+              <div *ngIf="formSubmitted && form.get('email').invalid"
+                   class="invalid-feedback">Required
+              </div>
+              <div *ngIf="formSubmitted && !form.get('email').invalid && form.get('email').dirty"
+                   class="invalid-feedback">Invalid email
+                format
+              </div>
+            </div>
+            <div class="d-grid" [ngbTooltip]="!isEmailVerified ? 'Email verification is required' : ''">
+              <button class="btn btn-outline-primary float-end mt-2" type="button" (click)="changePassword()"
+                      [disabled]="!isEmailVerified">Change Password
+              </button>
+            </div>
+          </div>
+          <div class="container-fluid mb-3">
+            <label for="mobileNo">Mobile No *</label>
+            <div class="input-group">
+              <input type="tel" class="form-control" id="mobileNo" formControlName="mobileNo"
+                     [value]="form.get('mobileNo')"
+                     [ngClass]="{ 'is-invalid': formSubmitted && form.get('mobileNo').invalid }">
+              <!--              <button [ngClass]="{'input-group-text': isMobileVerified, 'btn btn-primary': !isMobileVerified}"-->
+              <!--                      [disabled]="isMobileVerified" type="button" (click)="verifyMobile()">-->
+              <!--                <span *ngIf="!isMobileVerified">Verify</span>-->
+              <!--                <span *ngIf="isMobileVerified">Verified <i class="bx bx-check-circle text-success"></i></span>-->
+              <!--              </button>-->
+              <div *ngIf="formSubmitted && form.get('mobileNo').invalid"
+                   class="invalid-feedback">Invalid mobile format
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <div class="border border-2 border-opacity-25 rounded py-2 px-3 my-2">
+            <label class="fs-5">Address Information</label>
+            <div class="row">
+              <div class="col-lg-12 mb-3">
+                <label for="locationType">Location Type *</label>
+                <select id="locationType" class="form-select" formControlName="locationType"
+                        [ngClass]="{ 'is-invalid': formSubmitted && form.get('locationType').invalid }"
+                        (change)="onLocationTypeChange($event.target.value)">
+                  <option [ngValue]="null">Choose...</option>
+                  <!--                  <option [ngValue]="'Main Road Area'">Main Road Area</option>-->
+                  <option [ngValue]="'Commercial Area'">Commercial Area</option>
+                  <option [ngValue]="'Residential Area'">Residential Area</option>
+                </select>
+                <div *ngIf="formSubmitted && form.get('locationType').invalid"
+                     class="invalid-feedback">Required
+                </div>
+              </div>
+              <div class="col-lg-12 mb-3" *ngIf="form.get('locationType').value != ''">
+                <label for="buildingType">Type of House / Building *</label>
+                <select id="buildingType" class="form-select" formControlName="buildingType"
+                        [ngClass]="{ 'is-invalid': formSubmitted && form.get('buildingType').invalid }"
+                        (change)="onBuildingTypeChange($event.target.value)">
+                  <option [ngValue]="null">Choose...</option>
+                  <option [ngValue]="'High Rise Building'">High Rise Building</option>
+                  <option [ngValue]="'Landed'">Landed</option>
+                </select>
+                <div *ngIf="formSubmitted && form.get('buildingType').invalid"
+                     class="invalid-feedback">Required
+                </div>
+              </div>
+
+              <div class="row p-0 m-0"
+                   *ngIf="form.get('locationType').value != '' && form.get('buildingType').value != ''">
+                <div class="col-lg-12 mb-2"
+                     *ngIf="form.get('buildingType').value == 'High Rise Building' || form.get('buildingType').value == 'Landed'">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="buildingName" placeholder="Building Name"
+                           name="buildingName" formControlName="buildingName">
+                    <label for="buildingName">Building Name</label>
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-2" *ngIf="form.get('buildingType').value != ''">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="unit" name="unit" placeholder="Unit"
+                           formControlName="unitNo"
+                           [ngClass]="{'is-invalid': formSubmitted && form.get('unitNo').invalid }">
+                    <label for="unit">Unit *</label>
+                    <div *ngIf="formSubmitted && form.get('unitNo').invalid"
+                         class="invalid-feedback">Required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-2" *ngIf="form.get('buildingType').value == 'Landed'">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="floorNo" name="floorNo" placeholder="Floor"
+                           formControlName="floorNo">
+                    <label for="floorNo">Floor</label>
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-2" *ngIf="form.get('buildingType').value == 'Landed'">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="block" placeholder="Block" name="block"
+                           formControlName="block">
+                    <label for="block">Block</label>
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-2" *ngIf="form.get('buildingType').value != ''">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="lot" placeholder="Lot" name="lot" formControlName="lot">
+                    <label for="lot">Lot</label>
+                  </div>
+                </div>
+                <div class="col-lg-12 mb-2">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="street" placeholder="Street" name="street"
+                           formControlName="street" (blur)="doGeocoding()"
+                           [ngClass]="{ 'is-invalid': formSubmitted && form.get('street').invalid }">
+                    <label for="street">Street *</label>
+                    <div *ngIf="formSubmitted && form.get('street').invalid"
+                         class="invalid-feedback">Required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-2">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="section" placeholder="Section" name="section"
+                           formControlName="section">
+                    <label for="section">Section</label>
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-2">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="landmark" placeholder="Landmark" name="landmark"
+                           formControlName="landmark">
+                    <label for="landmark">Landmark</label>
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-2">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="postcode" placeholder="Postcode" name="postcode"
+                           formControlName="postcode" (blur)="doGeocoding()"
+                           [ngClass]="{ 'is-invalid': formSubmitted && form.get('postcode').invalid }">
+                    <label for="postcode">Postcode *</label>
+                    <div *ngIf="formSubmitted && form.get('postcode').invalid" class="invalid-feedback">
+                      Required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-2">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="city" placeholder="City" name="city"
+                           formControlName="cityName"
+                           [ngClass]="{ 'is-invalid': formSubmitted && form.get('cityName').invalid }">
+                    <label for="city">City *</label>
+                    <div *ngIf="formSubmitted && form.get('cityName').invalid"
+                         class="invalid-feedback">Required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-2">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="district" placeholder="District" name="district"
+                           formControlName="districtName"
+                           [ngClass]="{ 'is-invalid': formSubmitted && form.get('districtName').invalid }">
+                    <label for="district">District *</label>
+                    <div *ngIf="formSubmitted && !form.get('districtName').invalid"
+                         class="invalid-feedback">Required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-2">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="state" placeholder="State" name="state"
+                           formControlName="stateName"
+                           [ngClass]="{ 'is-invalid': formSubmitted && form.get('stateName').invalid }">
+                    <label for="state">State *</label>
+                    <div *ngIf="formSubmitted && form.get('stateName').invalid"
+                         class="invalid-feedback">Required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-2">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="latitude" placeholder="Latitude" name="latitude"
+                           formControlName="latitude"
+                           [ngClass]="{ 'is-invalid': formSubmitted && form.get('latitude').invalid }">
+                    <label for="latitude">Latitude *</label>
+                    <div *ngIf="formSubmitted && form.get('latitude').invalid"
+                         class="invalid-feedback">Required
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-2">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="longitude" placeholder="Longitude" name="longitude"
+                           formControlName="longitude"
+                           [ngClass]="{ 'is-invalid': formSubmitted && form.get('longitude').invalid }">
+                    <label for="longitude">Longitude *</label>
+                    <div *ngIf="formSubmitted && form.get('longitude').invalid"
+                         class="invalid-feedback">Required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary float-end" type="submit">Save</button>
+      <button class="btn btn-outline-info me-1 float-end" type="button" (click)="doReset()">Reset</button>
+    </form>
+  </div>
+</div>

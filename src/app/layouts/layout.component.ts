@@ -25,11 +25,11 @@ export class LayoutComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     // default settings
-    this.layoutType = LAYOUT_VERTICAL;
+    this.layoutType = LAYOUT_HORIZONTAL;
     this.layoutwidth = LAYOUT_WIDTH;
     this.topbar = TOPBAR;
     this.mode = LAYOUT_MODE;
-    this.sidebartype = SIDEBAR_TYPE;
+    // this.sidebartype = SIDEBAR_TYPE;
 
     // document.body.setAttribute('data-layout-mode', this.mode);
 

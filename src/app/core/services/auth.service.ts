@@ -99,17 +99,13 @@ export class AuthenticationService {
     return this.http.get(environment.apiUrl + '/auth/verify/public/' + uuid);
   }
 
-  login(email: string, password: string): Observable<any> {
-    let form = {
-      email: email,
-      password: password,
-    }
-    return this.http.post(environment.apiUrl + '/auth/user/login', form);
+  login(form: FormGroup): Observable<any> {
+    return this.http.post(environment.apiUrl + '/auth/login', form);
   }
 
   logout() {
     this.cookieService.delete(environment.tokenName);
-    this.router.navigate(['/public/login']);
+    this.router.navigate(['/login']);
   }
 
 }

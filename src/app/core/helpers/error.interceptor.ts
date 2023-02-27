@@ -15,24 +15,34 @@ export class ErrorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(catchError(err => {
       this.spinner.hide();
-      if (err.status === 401) {
-        // auto logout if 401 response returned from api
-        Swal.fire({
-          icon: 'warning',
-          title: 'Warning',
-          allowOutsideClick: false,
-          text: 'Invalid session, please login again',
-        }).then(result => {
-          this.authenticationService.logout();
-        });
+      switch (err.status) {
+        case 401:         // auto logout if 401 response returned from api
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            allowOutsideClick: false,
+            text: 'Invalid session, please login again',
+          }).then(result => {
+            console.log(result)
+            this.authenticationService.logout();
+          });
+          break;
+        case 500:         // auto logout if 401 response returned from api
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            allowOutsideClick: false,
+            text: 'Server error',
+          })
+          break;
+        default:
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'Something went wrong'
+          });
       }
-      else{
-        Swal.fire({
-          icon: 'warning',
-          title: 'Oops!',
-          text: 'Something went wrong.'
-        });
-      }
+      console.error(err)
       return throwError(err.error.message || err.statusText);
     }));
   }

@@ -1,0 +1,137 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form class="needs-validation" (ngSubmit)="validSubmit()" [formGroup]="customerForm">
+          <div class="row mb-4" *ngIf="!createNew">
+            <label for="customer-id-input" class="col-sm-3 col-form-label">Customer ID</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="customer-id-input" formControlName="customerId" disabled>
+            </div>
+          </div>
+          <div class="row mb-4">
+            <label for="customer-name-input" class="col-sm-3 col-form-label">Customer Name</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="customer-name-input" formControlName="customerName" [ngClass]="{'is-invalid': submit && form.customerName.errors}">
+              <div *ngIf="submit && form.customerName.errors" class="invalid-feedback">
+                <span *ngIf="form.customerName.errors.required">Required.</span>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-4">
+            <label for="delivery-charges-input" class="col-sm-3 col-form-label">Delivery Charges</label>
+            <div class="col-sm-9">
+              <input type="email" class="form-control" id="delivery-charges-input" formControlName="deliveryCharge" [ngClass]="{'is-invalid': submit && form.deliveryCharge.errors}">
+              <div *ngIf="submit && form.deliveryCharge.errors" class="invalid-feedback">
+                <span *ngIf="form.deliveryCharge.errors.required">Required.</span>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-4">
+            <label for="billing-cycle" class="col-sm-3 col-form-label">Billing Cycle</label>
+            <div class="col-sm-9">
+              <input type="password" class="form-control" id="billing-cycle" formControlName="billingCycle" [ngClass]="{'is-invalid': submit && form.billingCycle.errors}">
+              <div *ngIf="submit && form.billingCycle.errors" class="invalid-feedback">
+                <span *ngIf="form.billingCycle.errors.required">Required.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <label for="phone-number-input" class="col-sm-3 col-form-label">Phone Number</label>
+            <div class="col-sm-9">
+              <input type="number" class="form-control" id="phone-number-input" formControlName="phoneNo" [ngClass]="{'is-invalid': submit && form.phoneNo.errors}">
+              <div *ngIf="submit && form.phoneNo.errors" class="invalid-feedback">
+                <span *ngIf="form.phoneNo.errors.required">Required.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <label for="email-input" class="col-sm-3 col-form-label">Email</label>
+            <div class="col-sm-9">
+              <input type="email" class="form-control" id="email-input" formControlName="email" [ngClass]="{'is-invalid': submit && form.email.errors}">
+              <div *ngIf="submit && form.email.errors" class="invalid-feedback">
+                <span *ngIf="form.email.errors.required">Required.</span>
+                <span *ngIf="form.email.errors.pattern">Invalid email.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <label for="contact-person-input" class="col-sm-3 col-form-label">Contact Person</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="contact-person-input" formControlName="contactPerson">
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <label class="col-sm-3 col-form-label">Address</label>
+
+            <div class="col-sm-9">
+              <div class="row">
+                <div class="col-lg-3">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floating-address-unit-input" placeholder="Unit" formControlName="addressUnit" [ngClass]="{'is-invalid': submit && form.addressUnit.errors}">
+                    <label for="floating-address-unit-input">Unit Number</label>
+                    <div *ngIf="submit && form.addressUnit.errors" class="invalid-feedback">
+                      <span *ngIf="form.addressUnit.errors.required">Required.</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-9">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floating-address-street-input" placeholder="Street" formControlName="addressStreet" [ngClass]="{'is-invalid': submit && form.addressStreet.errors}">
+                    <label for="floating-address-street-input">Street</label>
+                    <div *ngIf="submit && form.addressStreet.errors" class="invalid-feedback">
+                      <span *ngIf="form.addressStreet.errors.required">Required.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floating-address-postcode-input" placeholder="Postcode" formControlName="addressPostcode" [ngClass]="{'is-invalid': submit && form.addressPostcode.errors}">
+                    <label for="floating-address-postcode-input">Postcode</label>
+                    <div *ngIf="submit && form.addressPostcode.errors" class="invalid-feedback">
+                      <span *ngIf="form.addressPostcode.errors.required">Required.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-4">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floating-address-city-input" placeholder="City" formControlName="addressCity" [ngClass]="{'is-invalid': submit && form.addressCity.errors}">
+                    <label for="floating-address-city-input">City</label>
+                    <div *ngIf="submit && form.addressCity.errors" class="invalid-feedback">
+                      <span *ngIf="form.addressCity.errors.required">Required.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-4">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floating-address-state-input" placeholder="State" formControlName="addressState" [ngClass]="{'is-invalid': submit && form.addressState.errors}">
+                    <label for="floating-address-state-input">State</label>
+                    <div *ngIf="submit && form.addressState.errors" class="invalid-feedback">
+                      <span *ngIf="form.addressState.errors.required">Required.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary w-md float-end" *ngIf="createNew">Submit</button>
+                <button type="submit" class="btn btn-primary w-md float-end" *ngIf="!createNew">Update</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

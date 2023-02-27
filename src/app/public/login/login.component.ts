@@ -1,58 +1,73 @@
-import { Component } from '@angular/core';
-import {AuthenticationService} from '../../core/services/auth.service';
-import {Router} from '@angular/router';
-import {SweetAlertService} from '../../core/services/sweetalert.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {AuthenticationService} from "../../core/services/auth.service";
+import {SpinnerVisibilityService} from 'ng-http-loader';
+import {environment} from '../../../environments/environment';
 import {CookieService} from 'ngx-cookie-service';
-import {TranslateService} from '@ngx-translate/core';
-import { environment } from '../../../environments/environment';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {SpinnerVisibilityService} from "ng-http-loader";
-import Swal from "sweetalert2";
-import {UserService} from "../../core/services/user.service";
+import {Router} from '@angular/router';
+import { SweetAlertService } from 'src/app/core/services/sweetalert.service';
+
+declare var require;
+const Swal = require('sweetalert2');
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
 
-  constructor(private router: Router,
-              private cookieService: CookieService,
-              private sweetAlertService: SweetAlertService,
-              private translateService: TranslateService,
-              private authenticationService: AuthenticationService,
+/**
+ * Login component
+ */
+export class LoginComponent implements OnInit {
+
+  environment = environment;
+  loginForm: FormGroup;
+  submitted = false;
+  error = '';
+  returnUrl: string;
+
+  showPassword: boolean;
+
+
+  // set the current year
+  year: number = new Date().getFullYear();
+
+  constructor(private formBuilder: FormBuilder,
               private spinner: SpinnerVisibilityService,
-              private userService: UserService) { }
+              private cookieService: CookieService,
+              private router: Router,
+              private sweetAlertService: SweetAlertService,
+              private authenticationService: AuthenticationService) { }
 
-  form = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
-  });
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+    });
 
-  login() {
-    this.spinner.show();
-    this.authenticationService.login(this.form.get('email').value, this.form.get('password').value).subscribe((data) => {
+    // reset login status
+    // this.authenticationService.logout();
+    // get return url from route parameters or default to '/'
+    // tslint:disable-next-line: no-string-literal
+    //this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  }
+
+  // convenience getter for easy access to form fields
+  get f() { return this.loginForm.controls; }
+
+  onSubmit() {
+    this.submitted = true;
+    console.log(this.loginForm.value);
+    this.authenticationService.login(this.loginForm.value).subscribe((data) => {
+      console.log(data)
       this.spinner.hide();
       if (data.isSuccess) {
         this.cookieService.set(environment.tokenName, data.result.token);
-
-        this.userService.getInfo().subscribe((response) => {
-            this.userService.setUserInfo(response.result);
-            this.router.navigate(['/home/main']).then(r => console.log(r));
-          }
-        );
+        this.router.navigate(['home']);
       } else {
-        this.sweetAlertService.showError(data.result.code);
+        this.sweetAlertService.showError(data.result.message);
       }
     })
-  }
-
-  resetPassword() {
-
-  }
-
-  signUp() {
-
   }
 }

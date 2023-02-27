@@ -1,139 +1,87 @@
-<app-topbar-without-login></app-topbar-without-login>
-
-<div class="container-fluid bg-light">
-  <div class="row justify-content-center pt-4 px-3 px-lg-0">
-    <div class="col-12 col-lg-11">
-      <div class="row">
-        <div class="col-12 col-lg-4">
-          <h2 class="mb-4">MCMC Consumer Redress Gateway</h2>
-          <p class="mb-5"><a class="card-link">REDRESS</a> channels for consumers on dissatisfaction with resolutions
-            offered related to communications and multimedia issues. Lodge and track your case after login into the
-            portal.</p>
-
-          <div class="card rounded-4">
-            <div class="card-body rounded-4 p-5">
-              <div class="row">
-                <div class="col-12">
-                  <h3 class="fw-bold">Hello! Welcome Back</h3>
-                  <p class="text-muted">Log in with your data that you entered during your registration</p>
-
-                  <lib-form-login></lib-form-login>
-                  <!--                  <form [formGroup]="form" (submit)="login()" >-->
-                  <!--                    <div class="form-floating mt-5">-->
-                  <!--                      <input type="email" class="form-control" id="email" placeholder="Email Address" name="email" formControlName="email">-->
-                  <!--                      <label for="email">Email Address</label>-->
-                  <!--                    </div>-->
-                  <!--                    <div class="form-floating mb-2">-->
-                  <!--                      <input type="password" class="form-control" id="password" placeholder="Password" name="password" formControlName="password">-->
-                  <!--                      <label for="password">Password</label>-->
-                  <!--                    </div>-->
-                  <!--                    <div class="row">-->
-                  <!--                      <div class="col-12 text-end">-->
-                  <!--                        <p class="float-end card-link" routerLink="/public/forget-password">Forgot Password?</p>-->
-                  <!--                      </div>-->
-                  <!--                    </div>-->
-                  <!--                    <div class="row mt-3">-->
-                  <!--                      <div class="col-6 d-grid">-->
-                  <!--                        <button type="submit" class="btn btn-warning btn-rounded btn-lg">Login</button>-->
-                  <!--                      </div>-->
-                  <!--                      <div class="col-6 d-grid">-->
-                  <!--                        <button class="btn btn-outline-warning btn-rounded btn-lg" routerLink="/public/register">Sign Up</button>-->
-                  <!--                      </div>-->
-                  <!--                    </div>-->
-
-                  <!--                  </form>-->
-                  <!--                  <div class="row my-4">-->
-                  <!--                    <div class="col-12 text-center">-->
-                  <!--                      <p class="fst-italic mb-0">OR</p>-->
-                  <!--                    </div>-->
-                  <!--                  </div>-->
-                  <!--                  <div class="row">-->
-                  <!--                    <div class="col-12 d-grid">-->
-                  <!--                      <button type="button" class="btn btn-outline-dark btn-rounded btn-lg" routerLink="/home/main">-->
-                  <!--                        <ul class="list-inline mb-0">-->
-                  <!--                          <li class="list-inline-item">-->
-                  <!--                            <a class="social-list-item text-dark border-dark">-->
-                  <!--                              <i class="mdi mdi-google"></i>-->
-                  <!--                            </a>-->
-                  <!--                          </li>-->
-                  <!--                          <li class="list-inline-item">-->
-                  <!--                            <span>Login with Google</span>-->
-                  <!--                          </li>-->
-                  <!--                        </ul>-->
-                  <!--                      </button>-->
-                  <!--                    </div>-->
-                  <!--                  </div>-->
+<div class="account-pages my-5 pt-sm-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6 col-xl-5">
+        <div class="card overflow-hidden">
+          <div class="bg-soft bg-primary">
+            <div class="row">
+              <div class="col-7">
+                <div class="text-primary p-4">
+                  <h5 class="text-primary">Kobewel Kogyo Marketing </h5>
+                  <p>{{environment.systemName}} Admin Portal</p>
                 </div>
+              </div>
+              <div class="col-5 align-self-end align-center text-right">
+                <img src="assets/images/default.png" alt="" class="h-100 w-100 img-sm">
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-12 col-lg-8 ps-lg-5 mt-5 mt-lg-0">
-          <h2 class="mb-4">Understand Your Issue</h2>
+          <div class="card-body pt-0">
+            <div class="p-2">
+              <form class="form-horizontal" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-          <div class="row">
-            <div class="col-12 col-lg-5">
-              <div class="card bg-light pointer"
-                   ngbTooltip="Services related to the public cellular, Copper/DSL, Fiber, Wireless, Fixed Line, IP Telephony and Public Phone services. The nature of complaints are more related to the issues of network, bill & charge, service delivery, term & condition disputes, misrepresentation of service, pricing, mobile number portability (MNP), unfair practice, SMS services and unlicensed provider.">
-                <img class="card-img img-fluid rounded-4" src="assets/images/icms/telecommunication-2.png"
-                     alt="Telecommunication">
-                <h4 class="bg-light bg-opacity-75 text-black fw-bold px-3 py-2 position-absolute w-100">
-                  Telecommunication</h4>
-              </div>
-            </div>
-            <div class="col-12 col-lg-7">
-              <div class="row">
-                <div class="col-12">
-                  <div class="card bg-light pointer"
-                       ngbTooltip="The handing of goods to a recognised carrier for dispatch by parcel post which the nature of services involve of receipting, processing, carriage and handover of a postal item to an addressee.">
-                    <img class="card-img img-fluid rounded-4" src="assets/images/icms/postalcourier-2.png"
-                         alt="Postal & Courier">
-                    <h4 class="bg-light bg-opacity-75 text-black fw-bold px-3 py-2 position-absolute w-100">Postal &
-                      Courier</h4>
+                <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
+
+                <div class="mb-3">
+                  <label for="username">Username</label>
+                  <input type="text" formControlName="username" class="form-control" id="username"
+                         placeholder="Username"
+                         [ngClass]="{ 'is-invalid': submitted && f.username.errors }"/>
+                  <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <div *ngIf="f.username.errors.required">Required</div>
                   </div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-12 col-lg-7">
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="card bg-light pointer"
-                           ngbTooltip="Divided into two (2) sections; services and content related matters. Whereby both sections involve the activities of the transmission of programmes or information by radio or television.">
-                        <img class="card-img img-fluid rounded-4" src="assets/images/icms/broadcasting-2.png"
-                             alt="Broadcasting">
-                        <h4 class="bg-light bg-opacity-75 text-black fw-bold px-3 py-2 position-absolute w-100">
-                          Broadcasting</h4>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="card bg-light pointer"
-                           ngbTooltip="Activities involved under this sector divided into two (2) categories; Activities that are under the scope of the Communications and Multimedia Act 1998 (CMA98) such as  illegally installation of the TV Parabola, Apparatus Assignment, non standard of telecommunication's equipment, tower objection, radiation, spectrum interference and any other communications activities. The other category is related to the implementation of MCMC initiative programs such as Pusat Ekonomi Digital Keluarga Malaysia (PEDi).">
-                        <img class="card-img img-fluid rounded-4" src="assets/images/icms/mcmcprovision-2.png"
-                             alt="MCMC Provision">
-                        <h4 class="bg-light bg-opacity-75 text-black fw-bold px-3 py-2 position-absolute w-100">MCMC
-                          Provision</h4>
-                      </div>
+
+                <div class="mb-3">
+                  <label for="password">Password</label>
+                  <div class="input-group auth-pass-inputgroup">
+                    <input type="password" class="form-control" formControlName="password" placeholder="Enter password"
+                           id="password" [type]="showPassword ? 'text' : 'password'"
+                           [ngClass]="{ 'is-invalid': submitted && f.password.errors }" aria-label="Password"
+                           aria-describedby="password-addon">
+
+                    <button class="btn btn-light ms-0" type="button" (click)="showPassword = showPassword != true">
+                      <i class="mdi mdi-eye-outline" [hidden]="showPassword"></i>
+                      <i class="mdi mdi-eye-off-outline" [hidden]="!showPassword"></i>
+                    </button>
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                      <span *ngIf="f.password.errors.required">Required</span>
                     </div>
                   </div>
                 </div>
-                <div class="col-12 col-lg-5">
-                  <div class="card bg-light pointer"
-                       ngbTooltip="Content available online which may possibly breach under the Sections 211 and 233 of the Communications and Multimedia Act 1998 (CMA98) based on the element of indecent, obscene, false, menacing, or offensive content.">
-                    <img class="card-img img-fluid rounded-4" src="assets/images/icms/onlinecontent-2.png"
-                         alt="Online Content">
-                    <h4 class="bg-light bg-opacity-75 text-black fw-bold px-3 py-2 position-absolute w-100">Online
-                      Content</h4>
-                  </div>
+
+                <!--                <div class="form-check">-->
+                <!--                  <input class="form-check-input" type="checkbox" id="remember-check">-->
+                <!--                  <label class="form-check-label" for="remember-check">-->
+                <!--                    Remember me-->
+                <!--                  </label>-->
+                <!--                </div>-->
+
+                <div class="mt-3 d-grid">
+                  <button class="btn btn-primary" type="submit">Log In</button>
                 </div>
-              </div>
+
+                <!--                <div class="mt-4 text-center">-->
+                <!--                  <a routerLink="/account/reset-password" class="text-muted"><i class="mdi mdi-lock mr-1"></i> Forgot-->
+                <!--                    your-->
+                <!--                    password?</a>-->
+                <!--                </div>-->
+              </form>
             </div>
+
           </div>
         </div>
+        <div class="mt-5 text-center">
+          <!--          <p>Don't have an account ? <a routerLink="/account/signup" class="fw-medium text-primary"> Signup-->
+          <!--            now-->
+          <!--          </a> </p>-->
+          <p>© {{year}} {{environment.systemName}} </p>
+        </div>
+
       </div>
-
-      <app-footer></app-footer>
     </div>
   </div>
+
+  <!-- end container -->
 </div>
+<!-- end page -->

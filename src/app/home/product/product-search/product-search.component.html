@@ -1,0 +1,38 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <form class="row" [formGroup]="form" (submit)="doSearch()">
+            <div class="col-9">
+              <input type="text" class="form-control" formControlName="searchText" placeholder="Enter name, phone number or email">
+            </div>
+            <div class="col-3">
+              <div class="btn-group w-100" role="group">
+                <button class="btn btn-outline-info" type="reset">Reset</button>
+                <button class="btn btn-primary" type="submit">Search</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-12 text-end">
+          <button class="btn btn-primary w-lg" routerLink="add">Add Product</button>
+        </div>
+      </div>
+
+      <lib-table [columns]="tableColumns"
+                 [items]="items"
+                 [currentPage]="currentPage"
+                 [pageSize]="pageSize"
+                 [totalPages]="totalPages"
+                 [totalElements]="totalElements"
+                 (pageChanged)="onPageChanged($event)"
+                 (rowClicked)="onSelectedRow($event)"
+                 [hidden]="!totalElements"
+      ></lib-table>
+    </div>
+  </div>
+</div>

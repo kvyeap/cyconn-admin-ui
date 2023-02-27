@@ -1,0 +1,31 @@
+<div class="card rounded-3">
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col-6">
+        <label class="float-start">Total Results : {{totalElements}}</label>
+      </div>
+      <div class="col-6">
+        <pagination-controls class="float-end" (pageChange)="onPageChange($event)" *ngIf="totalPages > 1"></pagination-controls>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover mb-3" [style.table-layout]="'auto'">
+          <thead class="table-dark">
+          <tr>
+            <th>#</th>
+            <th *ngFor="let col of columns">{{ col.title }}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="" *ngFor="let item of items | paginate: { itemsPerPage: pageSize, currentPage: currentPage + 1, totalItems: totalElements }; let i = index" (click)="rowClicked.emit({data: item})">
+            <td>{{ currentPage * pageSize + i + 1 }}</td>
+            <td *ngFor="let col of columns">
+              {{ item[col.key] }}
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

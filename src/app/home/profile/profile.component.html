@@ -1,331 +1,212 @@
-<div class="card rounded-3">
-  <div class="card-body">
-    <div class="row font-size fst-italic text-info mb-3">
-      <div class="col-6 text-start">
-        (*) Asterisk-marked fields are mandatory
-      </div>
-      <div *ngIf="lastUpdatedDate" class="col-6 text-end">Last updated on : {{lastUpdatedDate}}</div>
-    </div>
-    <form [formGroup]="form" (submit)="doSubmit()">
-      <div class="row is-invalid">
-        <div class="col-lg-5">
-          <div class="container-fluid text-center mb-3">
-            <div class="row justify-content-center">
-              <div class="col-12">
-                <input type="file" accept="image/*" (change)="onFileSelected($event)" #fileInput hidden>
-                <i class="bx bxs-user-circle text-light hovering-effect pointer image-profile"
-                   [hidden]="profileInfo?.image || form.get('image')?.value"
-                   ngbTooltip="Click to update picture" placement="right" (click)="fileInput.click()"></i>
-                <img class="rounded-circle hovering-effect image-profile pointer" *ngIf="profileInfo?.image || form.get('image')?.value"
-                     [src]="form.get('image')?.value ? form.get('image')?.value : profileInfo.image" alt="Logo"
-                     ngbTooltip="Click to update picture" placement="right" (click)="fileInput.click()">
-              </div>
-              <div class="col-12 mt-2" *ngIf="selectedFile">
-                <button class="btn btn-outline-warning mx-1" type="button" (click)="resetImage()">Revert</button>
-                <button class="btn btn-success mx-1" type="button" (click)="uploadImage()">Confirm</button>
-              </div>
-            </div>
-          </div>
-          <div class="container-fluid mb-3">
-            <label for="name">Name *</label>
-            <input type="text" class="form-control" id="name" formControlName="name" [value]="form.get('name')"
-                   [ngClass]="{ 'is-invalid': formSubmitted && form.get('name').invalid }"
-                   required>
-            <div *ngIf="formSubmitted && form.get('name').invalid" class="invalid-feedback">
-              Required
-            </div>
-          </div>
-          <div class="container-fluid mb-3">
-            <div class="row">
-              <div class="col-lg-6">
-                <label for="salutation">Salutation *</label>
-                <select id="salutation" class="form-select" formControlName="salutation"
-                        [ngClass]="{ 'is-invalid': formSubmitted && form.get('salutation').invalid }">
-                  <option [ngValue]="null">Choose...</option>
-                  <option *ngFor="let item of salutationList" [ngValue]="item.name">{{item.name}}</option>
-                </select>
-                <div *ngIf="formSubmitted && form.get('salutation').invalid"
-                     class="invalid-feedback">Required
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <label for="gender">Gender *</label>
-                <select id="gender" class="form-select" formControlName="gender"
-                        [ngClass]="{ 'is-invalid': formSubmitted && form.get('gender').invalid }">
-                  <option [ngValue]="null">Choose...</option>
-                  <option [ngValue]="'Male'">Male</option>
-                  <option [ngValue]="'Female'">Female</option>
-                </select>
-                <div *ngIf="formSubmitted && form.get('gender').invalid"
-                     class="invalid-feedback">Required
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="container-fluid mb-3">
-            <div class="row">
-              <div class="col-lg-6">
-                <label for="dateOfBirth">Date of Birth *</label>
-                <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth"
-                       [value]="form.get('dateOfBirth')" (blur)="calculateAge()" [max]="getMaxDate()"
-                       [ngClass]="{ 'is-invalid': formSubmitted && form.get('dateOfBirth').invalid }"
-                       required>
-                <div *ngIf="formSubmitted && form.get('dateOfBirth').invalid" class="invalid-feedback">
-                  Required
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <label for="age">Age *</label>
-                <input type="text" class="form-control" id="age" formControlName="age" [value]="form.get('age')"
-                       [ngClass]="{ 'is-invalid': formSubmitted && (form.get('age').invalid || form.get('age').value == 0) }"
-                       required>
-                <div *ngIf="formSubmitted && (form.get('age').invalid || form.get('age').value == 0)"
-                     class="invalid-feedback">
-                  Required
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="container-fluid mb-3">
-            <label for="citizenRadio">Resident Status *</label>
-            <div class="input-group">
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="isCitizen" id="citizenRadio" value="true"
-                       formControlName="isCitizen">
-                <label class="form-check-label" for="citizenRadio">Citizen</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="isCitizen" id="nCitizenRadio" value="false"
-                       formControlName="isCitizen">
-                <label class="form-check-label" for="nCitizenRadio">Non-Citizen</label>
-              </div>
-            </div>
-          </div>
-          <div class="container-fluid mb-3">
-            <label for="nricPassportNo">NRIC / Passport No *</label>
-            <div class="input-group">
-              <input type="text" class="form-control" id="nricPassportNo" formControlName="nricPassportNo"
-                     [value]="form.get('nricPassport')"
-                     [ngClass]="{ 'is-invalid': formSubmitted && form.get('nricPassportNo').invalid }">
-              <div *ngIf="formSubmitted && form.get('nricPassportNo').invalid"
-                   class="invalid-feedback">Required
-              </div>
-            </div>
-          </div>
-          <div class="container-fluid mb-3">
-            <label for="email">Email *</label>
-            <div class="input-group">
-              <input type="email" class="form-control" id="email" formControlName="email" [value]="form.get('email')"
-                     [ngClass]="{ 'is-invalid': formSubmitted && form.get('email').invalid }"
-                     required>
-              <button [ngClass]="{'input-group-text': isEmailVerified, 'btn btn-primary': !isEmailVerified}"
-                      [disabled]="isEmailVerified" type="button" (click)="verifyEmail()">
-                <span *ngIf="!isEmailVerified">Verify <i class="fa fa-spinner fa-pulse fa-1x fa-fw"
-                                                         [hidden]="!sentTAC"></i></span>
-                <span *ngIf="isEmailVerified">Verified <i class="bx bx-check-circle text-success"></i></span>
-              </button>
-              <div *ngIf="formSubmitted && form.get('email').invalid"
-                   class="invalid-feedback">Required
-              </div>
-              <div *ngIf="formSubmitted && !form.get('email').invalid && form.get('email').dirty"
-                   class="invalid-feedback">Invalid email
-                format
-              </div>
-            </div>
-            <div class="d-grid" [ngbTooltip]="!isEmailVerified ? 'Email verification is required' : ''">
-              <button class="btn btn-outline-primary float-end mt-2" type="button" (click)="changePassword()"
-                      [disabled]="!isEmailVerified">Change Password
-              </button>
-            </div>
-          </div>
-          <div class="container-fluid mb-3">
-            <label for="mobileNo">Mobile No *</label>
-            <div class="input-group">
-              <input type="tel" class="form-control" id="mobileNo" formControlName="mobileNo"
-                     [value]="form.get('mobileNo')"
-                     [ngClass]="{ 'is-invalid': formSubmitted && form.get('mobileNo').invalid }">
-              <!--              <button [ngClass]="{'input-group-text': isMobileVerified, 'btn btn-primary': !isMobileVerified}"-->
-              <!--                      [disabled]="isMobileVerified" type="button" (click)="verifyMobile()">-->
-              <!--                <span *ngIf="!isMobileVerified">Verify</span>-->
-              <!--                <span *ngIf="isMobileVerified">Verified <i class="bx bx-check-circle text-success"></i></span>-->
-              <!--              </button>-->
-              <div *ngIf="formSubmitted && form.get('mobileNo').invalid"
-                   class="invalid-feedback">Invalid mobile format
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-7">
-          <div class="border border-2 border-opacity-25 rounded py-2 px-3 my-2">
-            <label class="fs-5">Address Information</label>
-            <div class="row">
-              <div class="col-lg-12 mb-3">
-                <label for="locationType">Location Type *</label>
-                <select id="locationType" class="form-select" formControlName="locationType"
-                        [ngClass]="{ 'is-invalid': formSubmitted && form.get('locationType').invalid }"
-                        (change)="onLocationTypeChange($event.target.value)">
-                  <option [ngValue]="null">Choose...</option>
-                  <!--                  <option [ngValue]="'Main Road Area'">Main Road Area</option>-->
-                  <option [ngValue]="'Commercial Area'">Commercial Area</option>
-                  <option [ngValue]="'Residential Area'">Residential Area</option>
-                </select>
-                <div *ngIf="formSubmitted && form.get('locationType').invalid"
-                     class="invalid-feedback">Required
-                </div>
-              </div>
-              <div class="col-lg-12 mb-3" *ngIf="form.get('locationType').value != ''">
-                <label for="buildingType">Type of House / Building *</label>
-                <select id="buildingType" class="form-select" formControlName="buildingType"
-                        [ngClass]="{ 'is-invalid': formSubmitted && form.get('buildingType').invalid }"
-                        (change)="onBuildingTypeChange($event.target.value)">
-                  <option [ngValue]="null">Choose...</option>
-                  <option [ngValue]="'High Rise Building'">High Rise Building</option>
-                  <option [ngValue]="'Landed'">Landed</option>
-                </select>
-                <div *ngIf="formSubmitted && form.get('buildingType').invalid"
-                     class="invalid-feedback">Required
-                </div>
-              </div>
+<div class="container-fluid">
 
-              <div class="row p-0 m-0"
-                   *ngIf="form.get('locationType').value != '' && form.get('buildingType').value != ''">
-                <div class="col-lg-12 mb-2"
-                     *ngIf="form.get('buildingType').value == 'High Rise Building' || form.get('buildingType').value == 'Landed'">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" id="buildingName" placeholder="Building Name"
-                           name="buildingName" formControlName="buildingName">
-                    <label for="buildingName">Building Name</label>
+<!--  <app-page-title title="Company Profile" [breadcrumbItems]="breadCrumbItems"></app-page-title>-->
+
+  <div class="row">
+    <div class="col-md-12">
+<!--      <div *ngFor="let alert of alertData">-->
+<!--        <ngb-alert type="danger" (close)="close(alert, alertData)" class="custom-alert" >-->
+<!--          {{alert}}-->
+<!--        </ngb-alert>-->
+<!--      </div>-->
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-4">
+      <div class="card overflow-hidden">
+        <!--<div class="bg-soft bg-primary">-->
+          <!--<div class="row">-->
+            <!--<div class="col-7">-->
+              <!--<div class="text-primary p-3">-->
+                <!--<h5 class="text-primary">Welcome Back !</h5>-->
+                <!--<p>It will seem like simplified</p>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col-5 align-self-end">-->
+              <!--<img src="assets/images/profile-img.png" alt="" class="img-fluid">-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+        <div class="card-body pt-0">
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="avatar-md profile-user-wid mb-2 mt-3">
+                <img src="assets/pic/Logo2.png" alt="" class="img-thumbnail rounded-circle bg-dark">
+              </div>
+              <span class="badge rounded-pill badge-soft-danger font-size-11  m-1"> 70% completed </span>
+              <h5 class="font-size-15 text-truncate">Pymsoft Sdn Bhd</h5>
+              <p class="text-muted mb-0 text-truncate"></p>
+            </div>
+
+            <div class="col-sm-8">
+              <div class="pt-2">
+
+                <div class="row">
+                  <div class="col-4">
+                    <h5 class="font-size-15">3</h5>
+                    <p class="text-muted mb-0">Shortlisted</p>
+                  </div>
+                  <div class="col-4">
+                    <h5 class="font-size-15">2</h5>
+                    <p class="text-muted mb-0">Submitted</p>
+                  </div>
+                  <div class="col-4">
+                    <h5 class="font-size-15">10</h5>
+                    <p class="text-muted mb-0">Closed</p>
                   </div>
                 </div>
-                <div class="col-lg-6 mb-2" *ngIf="form.get('buildingType').value != ''">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" id="unit" name="unit" placeholder="Unit"
-                           formControlName="unitNo"
-                           [ngClass]="{'is-invalid': formSubmitted && form.get('unitNo').invalid }">
-                    <label for="unit">Unit *</label>
-                    <div *ngIf="formSubmitted && form.get('unitNo').invalid"
-                         class="invalid-feedback">Required
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-2" *ngIf="form.get('buildingType').value == 'Landed'">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" id="floorNo" name="floorNo" placeholder="Floor"
-                           formControlName="floorNo">
-                    <label for="floorNo">Floor</label>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-2" *ngIf="form.get('buildingType').value == 'Landed'">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" id="block" placeholder="Block" name="block"
-                           formControlName="block">
-                    <label for="block">Block</label>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-2" *ngIf="form.get('buildingType').value != ''">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" id="lot" placeholder="Lot" name="lot" formControlName="lot">
-                    <label for="lot">Lot</label>
-                  </div>
-                </div>
-                <div class="col-lg-12 mb-2">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" id="street" placeholder="Street" name="street"
-                           formControlName="street" (blur)="doGeocoding()"
-                           [ngClass]="{ 'is-invalid': formSubmitted && form.get('street').invalid }">
-                    <label for="street">Street *</label>
-                    <div *ngIf="formSubmitted && form.get('street').invalid"
-                         class="invalid-feedback">Required
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-2">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" id="section" placeholder="Section" name="section"
-                           formControlName="section">
-                    <label for="section">Section</label>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-2">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" id="landmark" placeholder="Landmark" name="landmark"
-                           formControlName="landmark">
-                    <label for="landmark">Landmark</label>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-2">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" id="postcode" placeholder="Postcode" name="postcode"
-                           formControlName="postcode" (blur)="doGeocoding()"
-                           [ngClass]="{ 'is-invalid': formSubmitted && form.get('postcode').invalid }">
-                    <label for="postcode">Postcode *</label>
-                    <div *ngIf="formSubmitted && form.get('postcode').invalid" class="invalid-feedback">
-                      Required
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-2">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" id="city" placeholder="City" name="city"
-                           formControlName="cityName"
-                           [ngClass]="{ 'is-invalid': formSubmitted && form.get('cityName').invalid }">
-                    <label for="city">City *</label>
-                    <div *ngIf="formSubmitted && form.get('cityName').invalid"
-                         class="invalid-feedback">Required
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-2">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" id="district" placeholder="District" name="district"
-                           formControlName="districtName"
-                           [ngClass]="{ 'is-invalid': formSubmitted && form.get('districtName').invalid }">
-                    <label for="district">District *</label>
-                    <div *ngIf="formSubmitted && !form.get('districtName').invalid"
-                         class="invalid-feedback">Required
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-2">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" id="state" placeholder="State" name="state"
-                           formControlName="stateName"
-                           [ngClass]="{ 'is-invalid': formSubmitted && form.get('stateName').invalid }">
-                    <label for="state">State *</label>
-                    <div *ngIf="formSubmitted && form.get('stateName').invalid"
-                         class="invalid-feedback">Required
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-2">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" id="latitude" placeholder="Latitude" name="latitude"
-                           formControlName="latitude"
-                           [ngClass]="{ 'is-invalid': formSubmitted && form.get('latitude').invalid }">
-                    <label for="latitude">Latitude *</label>
-                    <div *ngIf="formSubmitted && form.get('latitude').invalid"
-                         class="invalid-feedback">Required
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-2">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" id="longitude" placeholder="Longitude" name="longitude"
-                           formControlName="longitude"
-                           [ngClass]="{ 'is-invalid': formSubmitted && form.get('longitude').invalid }">
-                    <label for="longitude">Longitude *</label>
-                    <div *ngIf="formSubmitted && form.get('longitude').invalid"
-                         class="invalid-feedback">Required
-                    </div>
-                  </div>
-                </div>
+
               </div>
             </div>
           </div>
         </div>
       </div>
-      <button class="btn btn-primary float-end" type="submit">Save</button>
-      <button class="btn btn-outline-info me-1 float-end" type="button" (click)="doReset()">Reset</button>
-    </form>
+      <!-- end card -->
+
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title mb-4">Company Information
+            <a href="javascript: void(0);" class="btn btn-outline btn-sm float-end"><i class="bx bx-pencil font-size-16"></i> </a>
+          </h4>
+
+          <p class="text-muted mb-4">Some company description. Self type by company admin/owner. </p>
+          <div class="table-responsive">
+            <table class="table table-nowrap mb-0 font-size-11">
+              <tbody>
+              <tr>
+                <th scope="row">Company :</th>
+                <td>Pymsoft Sdn Bhd</td>
+              </tr>
+              <tr>
+                <th scope="row">ROC No :</th>
+                <td><span class="text-danger">-</span></td>
+              </tr>
+              <tr>
+                <th scope="row">Contact No :</th>
+                <td>+601-123 1234</td>
+              </tr>
+              <tr>
+                <th scope="row">Fax No :</th>
+                <td><span class="text-danger">-</span></td>
+              </tr>
+              <tr>
+                <th scope="row">E-mail :</th>
+                <td><span class="text-danger">-</span></td>
+              </tr>
+              <tr>
+                <th scope="row">Address :</th>
+                <td>C-3A-06, <br>
+                  CENTUM @ OASIS CORP PARK,<br>
+                  NO. 2, JALAN PJU 1A/2<br>
+                  PETALING JAYA,<br>
+                  47800 SELANGOR,<br>
+                  MALAYSIA</td>
+              </tr>
+              <tr>
+                <th scope="row">Service Category :</th>
+                <td>Air-con, Lift, Cleaning </td>
+              </tr>
+              <tr>
+                <th scope="row">Form-9 :</th>
+                <td><span class="text-danger">-</span> </td>
+              </tr>
+
+              </tbody>
+            </table>
+          </div>
+<!--          <div class="mt-4">-->
+<!--            <a href="javascript: void(0);" class="btn btn-primary btn-sm">Edit Profile </a>-->
+<!--          </div>-->
+        </div>
+
+
+      </div>
+      <!-- end card -->
+
+
+    </div>
+
+    <div class="col-xl-8">
+
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title mb-4">User Request <span class="badge bg-danger rounded-pill">2</span></h4>
+          <div class="table-responsive">
+            <table class="table table-nowrap table-hover mb-0">
+              <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>Lucas Wong
+                <br/>
+                <span class="font-size-10">Requested on : 26 Feb 2022</span>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-success m-1"><i class="bx bx-check"></i></button>
+                  <button type="button" class="btn btn-sm btn-danger m-1"><i class="bx bx-x"></i></button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>Peixin
+                <br/>
+                <span class="font-size-10">Requested on : 27 Feb 2022</span>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-success m-1"><i class="bx bx-check"></i></button>
+                  <button type="button" class="btn btn-sm btn-danger m-1"><i class="bx bx-x"></i></button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title mb-4">Company User</h4>
+          <div class="table-responsive">
+            <table class="table table-nowrap table-hover mb-0">
+              <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Join Date</th>
+                <th scope="col"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr style="vertical-align:baseline">
+                <td>Jackal Chin</td>
+                <td>2 Feb 2022</td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-danger m-1">Leave</button>
+                </td>
+              </tr>
+
+              <tr style="vertical-align:baseline">
+                <td>Isaac Wong</td>
+                <td>2 Feb 2022</td>
+                <td>
+                  <!--<button type="button" class="btn btn-sm btn-danger m-1">Reject</button>-->
+                </td>
+              </tr>
+
+              </tbody>
+            </table>
+            <button type="button" class="btn btn-primary btn-sm float-end mt-2">Invite New User</button>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
   </div>
+  <!-- end row -->
 </div>

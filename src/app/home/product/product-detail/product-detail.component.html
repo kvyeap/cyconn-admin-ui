@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <form class="needs-validation" (ngSubmit)="doSubmit()" [formGroup]="productForm">
+            <div class="row mb-4">
+              <label for="product-name-input" class="col-2 col-form-label text-end">*Product Name</label>
+              <div class="col-10">
+                <input type="text" class="form-control" id="product-name-input" formControlName="name"
+                       [ngClass]="{'is-invalid': submit && form.name.errors}">
+                <div *ngIf="submit && form.name.errors" class="invalid-feedback">
+                  <span *ngIf="form.name.errors.required">Required</span>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-4">
+              <label for="product-name-input" class="col-2 col-form-label text-end">*Product Code</label>
+              <div class="col-10">
+                <input type="text" class="form-control" id="product-code-input" formControlName="code"
+                       [ngClass]="{'is-invalid': submit && form.code.errors}">
+                <div *ngIf="submit && form.code.errors" class="invalid-feedback">
+                  <span *ngIf="form.code.errors.required">Required</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary w-md float-end">Save</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

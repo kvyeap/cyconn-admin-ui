@@ -6,6 +6,7 @@ export const environment = {
   googleApiKey: 'AIzaSyBPDVhI30Iwl_iYxAdSKuJ0ypr-gCrta9E',
   mapType: 'leaflet',
   tokenName: 'X-Auth-Token',
+  systemName: 'Cylinder Connect',
   firebaseConfig: {
     apiKey: '',
     authDomain: '',

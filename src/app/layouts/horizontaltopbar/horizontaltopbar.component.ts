@@ -1,17 +1,12 @@
 import { Component, OnInit, AfterViewInit, Inject } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { LanguageService } from '../../core/services/language.service';
-
 import { EventService } from '../../core/services/event.service';
 import { AuthenticationService } from '../../core/services/auth.service';
-import { AuthfakeauthenticationService } from '../../core/services/authfake.service';
-
 import { DOCUMENT } from '@angular/common';
-
 import { MENU } from './menu';
 import { MenuItem } from './menu.model';
-import { environment } from '../../../environments/environment';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-horizontaltopbar',
@@ -24,26 +19,18 @@ import { environment } from '../../../environments/environment';
  */
 export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
 
+  environment = environment;
   element;
   cookieValue;
   flagvalue;
   countryName;
   valueset;
+  username;
 
   menuItems = [];
 
-  listLang = [
-    { text: 'English', flag: 'assets/images/flags/us.jpg', lang: 'en' },
-    { text: 'Spanish', flag: 'assets/images/flags/spain.jpg', lang: 'es' },
-    { text: 'German', flag: 'assets/images/flags/germany.jpg', lang: 'de' },
-    { text: 'Italian', flag: 'assets/images/flags/italy.jpg', lang: 'it' },
-    { text: 'Russian', flag: 'assets/images/flags/russia.jpg', lang: 'ru' },
-  ];
-
   // tslint:disable-next-line: max-line-length
   constructor(@Inject(DOCUMENT) private document: any, private router: Router, private eventService: EventService, private authService: AuthenticationService,
-    private authFackservice: AuthfakeauthenticationService,
-    public languageService: LanguageService,
     // tslint:disable-next-line: variable-name
     public _cookiesService: CookieService) {
     router.events.subscribe(event => {
@@ -58,32 +45,32 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
 
     this.initialize();
 
-    this.cookieValue = this._cookiesService.get('lang');
-    const val = this.listLang.filter(x => x.lang === this.cookieValue);
-    this.countryName = val.map(element => element.text);
-    if (val.length === 0) {
-      if (this.flagvalue === undefined) { this.valueset = 'assets/images/flags/us.jpg'; }
-    } else {
-      this.flagvalue = val.map(element => element.flag);
-    }
+    // this.cookieValue = this._cookiesService.get('lang');
+    // const val = this.listLang.filter(x => x.lang === this.cookieValue);
+    // this.countryName = val.map(element => element.text);
+    // if (val.length === 0) {
+    //   if (this.flagvalue === undefined) { this.valueset = 'assets/images/flags/us.jpg'; }
+    // } else {
+    //   this.flagvalue = val.map(element => element.flag);
+    // }
   }
 
-  setLanguage(text: string, lang: string, flag: string) {
-    this.countryName = text;
-    this.flagvalue = flag;
-    this.cookieValue = lang;
-    this.languageService.setLanguage(lang);
-  }
+  // setLanguage(text: string, lang: string, flag: string) {
+  //   this.countryName = text;
+  //   this.flagvalue = flag;
+  //   this.cookieValue = lang;
+  //   this.languageService.setLanguage(lang);
+  // }
 
   /**
    * Logout the user
    */
   logout() {
-    if (environment.defaultauth === 'firebase') {
-      this.authService.logout();
-    } else {
-      this.authFackservice.logout();
-    }
+    // if (environment.defaultauth === 'firebase') {
+    //   this.authService.logout();
+    // } else {
+    //   this.authFackservice.logout();
+    // }
   }
 
   /**
@@ -219,38 +206,38 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
   /**
    * Fullscreen method
    */
-  fullscreen() {
-    document.body.classList.toggle('fullscreen-enable');
-    if (
-      !document.fullscreenElement && !this.element.mozFullScreenElement &&
-      !this.element.webkitFullscreenElement) {
-      if (this.element.requestFullscreen) {
-        this.element.requestFullscreen();
-      } else if (this.element.mozRequestFullScreen) {
-        /* Firefox */
-        this.element.mozRequestFullScreen();
-      } else if (this.element.webkitRequestFullscreen) {
-        /* Chrome, Safari and Opera */
-        this.element.webkitRequestFullscreen();
-      } else if (this.element.msRequestFullscreen) {
-        /* IE/Edge */
-        this.element.msRequestFullscreen();
-      }
-    } else {
-      if (this.document.exitFullscreen) {
-        this.document.exitFullscreen();
-      } else if (this.document.mozCancelFullScreen) {
-        /* Firefox */
-        this.document.mozCancelFullScreen();
-      } else if (this.document.webkitExitFullscreen) {
-        /* Chrome, Safari and Opera */
-        this.document.webkitExitFullscreen();
-      } else if (this.document.msExitFullscreen) {
-        /* IE/Edge */
-        this.document.msExitFullscreen();
-      }
-    }
-  }
+  // fullscreen() {
+  //   document.body.classList.toggle('fullscreen-enable');
+  //   if (
+  //     !document.fullscreenElement && !this.element.mozFullScreenElement &&
+  //     !this.element.webkitFullscreenElement) {
+  //     if (this.element.requestFullscreen) {
+  //       this.element.requestFullscreen();
+  //     } else if (this.element.mozRequestFullScreen) {
+  //       /* Firefox */
+  //       this.element.mozRequestFullScreen();
+  //     } else if (this.element.webkitRequestFullscreen) {
+  //       /* Chrome, Safari and Opera */
+  //       this.element.webkitRequestFullscreen();
+  //     } else if (this.element.msRequestFullscreen) {
+  //       /* IE/Edge */
+  //       this.element.msRequestFullscreen();
+  //     }
+  //   } else {
+  //     if (this.document.exitFullscreen) {
+  //       this.document.exitFullscreen();
+  //     } else if (this.document.mozCancelFullScreen) {
+  //       /* Firefox */
+  //       this.document.mozCancelFullScreen();
+  //     } else if (this.document.webkitExitFullscreen) {
+  //       /* Chrome, Safari and Opera */
+  //       this.document.webkitExitFullscreen();
+  //     } else if (this.document.msExitFullscreen) {
+  //       /* IE/Edge */
+  //       this.document.msExitFullscreen();
+  //     }
+  //   }
+  // }
 
   /**
    * Initialize

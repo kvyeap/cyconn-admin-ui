@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import Swal from 'sweetalert2';
 import {TranslateService} from '@ngx-translate/core';
 import {CookieService} from 'ngx-cookie-service';
@@ -8,30 +8,23 @@ import {CookieService} from 'ngx-cookie-service';
 })
 export class SweetAlertService {
 
-  constructor(private translateService: TranslateService,
-              private cookieService: CookieService) {
+  constructor(private cookieService: CookieService) {
 
-    this.translateService.setDefaultLang(this.cookieService.get('lang'));
   }
 
   showSuccess(message: string) {
-    this.translateService.get(message).subscribe((data: any) => {
-      Swal.fire({
-        icon: 'success',
-        title: 'Success',
-        text: data
-      });
+    Swal.fire({
+      icon: 'success',
+      title: 'Success',
+      text: message
     });
   }
 
-  showError(code: string) {
-    this.translateService.get('ERROR_STATUS').subscribe((data: any) => {
-      const message = data.find(x => Object.keys(x)[0] === code);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: message[code]
-      });
+  showError(message: string) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: message
     });
   }
 
@@ -43,17 +36,14 @@ export class SweetAlertService {
     });
   }
 
-  showErrorWithCallback(code: string, callback: (result: any) => void) {
-    this.translateService.get('ERROR_STATUS').subscribe((data: any) => {
-      const message = data.find(x => Object.keys(x)[0] === code);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: message[code],
-        showConfirmButton: true
-      }).then((result) => {
-        callback(result)
-      });
+  showErrorWithCallback(message: string, callback: (result: any) => void) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: message,
+      showConfirmButton: true
+    }).then((result) => {
+      callback(result)
     });
   }
 

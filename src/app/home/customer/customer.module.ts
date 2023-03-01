@@ -7,6 +7,7 @@ import { CustomerDetailComponent } from './customer-detail/customer-detail.compo
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {ReactiveFormsModule} from '@angular/forms';
 import {LibModule} from '../../lib/lib.module';
+import {NgSelectModule} from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {LibModule} from '../../lib/lib.module';
         CustomerRoutingModule,
         NgxDatatableModule,
         ReactiveFormsModule,
-        LibModule
+        LibModule,
+        NgSelectModule
     ]
 })
 export class CustomerModule { }

@@ -16,4 +16,8 @@ export class CustomerService {
     return this.http.get(environment.apiUrl + '/customer', {params: form.value});
   }
 
+  get(uuid: string): Observable<any> {
+    return this.http.get(environment.apiUrl + '/customer/' + uuid);
+  }
+
 }

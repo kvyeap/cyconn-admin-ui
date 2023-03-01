@@ -54,7 +54,7 @@ export class ProductSearchComponent implements OnInit {
       currentPage: pageNumber
     });
 
-    this.productService.searchProduct(this.form).subscribe(response => {
+    this.productService.doSearch(this.form).subscribe(response => {
       this.spinner.hide();
       if (response.isSuccess) {
         this.items = response.result.content;

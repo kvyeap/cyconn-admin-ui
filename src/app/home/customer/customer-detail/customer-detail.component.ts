@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
+import {SweetAlertService} from '../../../core/services/sweetalert.service';
+import {CustomerService} from '../../../core/services/customer.service';
 
 @Component({
   selector: 'app-customer-detail',
@@ -11,24 +13,42 @@ export class CustomerDetailComponent implements OnInit {
 
   customerForm: FormGroup; // validation form
 
-  createNew: boolean;
   submit: boolean;
+  uuid: string;
+  cityList: any[];
+  stateList: any[];
+  addressTypeList: any[];
 
-  constructor(private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute) {
+  constructor(private formBuilder: FormBuilder,
+              private customerService: CustomerService,
+              private sweetAlertService: SweetAlertService,
+              private activatedRoute: ActivatedRoute) {
 
     this.customerForm = this.formBuilder.group({
-      customerId: ['', []],
-      customerName: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]+')]],
-      deliveryCharge: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]+')]],
-      billingCycle: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]+')]],
-      phoneNo: ['', [Validators.required, Validators.pattern('[0-9]+')]],
-      email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
-      contactPerson: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]+')]],
-      addressUnit: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]+')]],
-      addressStreet: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]+')]],
-      addressPostcode: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]+')]],
-      addressCity: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]+')]],
-      addressState: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]+')]],
+      previousSysId: [''],
+      name: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]+')]],
+      contactList: this.formBuilder.array([
+        this.formBuilder.group({
+          uuid: [''],
+          name: ['', Validators.required],
+          contactNo: ['', Validators.required],
+          email: ['', Validators.required],
+        })
+      ]),
+      addressList: this.formBuilder.array([
+        this.formBuilder.group({
+          uuid: [''],
+          name: ['', Validators.required],
+          addressType: ['', Validators.required],
+          unitNo: ['', Validators.required],
+          street: ['', Validators.required],
+          postalCode: ['', Validators.required],
+          cityOld: ['', Validators.required],
+          city: ['', Validators.required],
+          stateOld: ['', Validators.required],
+          state: ['', Validators.required],
+        })
+      ]),
     });
 
   }
@@ -39,6 +59,42 @@ export class CustomerDetailComponent implements OnInit {
   get form() {
     return this.customerForm.controls;
   }
+  get contactList() {
+    return this.customerForm.get('contactList') as FormArray;
+  }
+
+  get addressList() {
+    return this.customerForm.get('addressList') as FormArray;
+  }
+
+  addContact() {
+    this.contactList.push(this.formBuilder.group({
+      name: ['', Validators.required],
+      contactNo: ['', Validators.required],
+      email: ['', Validators.required],
+    }));
+  }
+
+  removeContact(index: number) {
+    this.contactList.removeAt(index)
+  }
+
+  addAddress() {
+    this.addressList.push(this.formBuilder.group({
+      uuid: [''],
+      name: ['', Validators.required],
+      addressType: ['', Validators.required],
+      unitNo: ['', Validators.required],
+      street: ['', Validators.required],
+      postalCode: ['', Validators.required],
+      city: ['', Validators.required],
+      state: ['', Validators.required],
+    }));
+  }
+
+  removeAddress(index: number) {
+    this.addressList.removeAt(index)
+  }
 
   /**
    * Bootsrap validation form submit method
@@ -48,13 +104,21 @@ export class CustomerDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe(params => {
-      if (params.id) {
-        this.createNew = false;
-      } else {
-        this.createNew = true;
-      }
-    });
+    this.uuid = this.activatedRoute.snapshot.params.uuid;
+    if (this.uuid) {
+      this.customerService.get(this.uuid).subscribe(response => {
+        console.log(response)
+        if (response.isSuccess) {
+          this.customerForm.patchValue({
+            previousSysId: response.result.previousSysId,
+            name: response.result.name
+          });
+          this.customerForm.controls['previousSysId'].disable();
+        } else {
+          this.sweetAlertService.showWarning('Warning', response.result.message);
+        }
+      })
+    }
   }
 
 }

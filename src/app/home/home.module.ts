@@ -7,14 +7,12 @@ import {LeafletModule} from "@asymmetrik/ngx-leaflet";
 import {DropzoneModule} from "ngx-dropzone-wrapper";
 import {CarouselModule} from "ngx-owl-carousel-o";
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
-import {ProfileComponent} from './profile/profile.component';
 import {AgmCoreModule} from "@agm/core";
 import {environment} from "../../environments/environment";
 import {DashboardComponent} from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
-    ProfileComponent,
     DashboardComponent
   ],
   exports: [],

@@ -12,8 +12,16 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  searchProduct(form: FormGroup): Observable<any> {
+
+  doSearch(form: FormGroup): Observable<any> {
     return this.http.get(environment.apiUrl + '/product', {params: form.value});
   }
 
+  get(uuid: string): Observable<any> {
+    return this.http.get(environment.apiUrl + '/product/' + uuid);
+  }
+
+  save(form: FormGroup): Observable<any> {
+    return this.http.post(environment.apiUrl + '/product', form);
+  }
 }

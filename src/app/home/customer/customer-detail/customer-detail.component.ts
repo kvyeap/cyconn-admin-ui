@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {SweetAlertService} from '../../../core/services/sweetalert.service';
 import {CustomerService} from '../../../core/services/customer.service';
+import {CommonService} from '../../../core/services/common.service';
 
 @Component({
   selector: 'app-customer-detail',
@@ -15,12 +16,11 @@ export class CustomerDetailComponent implements OnInit {
 
   submit: boolean;
   uuid: string;
-  cityList: any[];
-  stateList: any[];
   addressTypeList: any[];
 
   constructor(private formBuilder: FormBuilder,
               private customerService: CustomerService,
+              private commonService: CommonService,
               private sweetAlertService: SweetAlertService,
               private activatedRoute: ActivatedRoute) {
 
@@ -42,10 +42,10 @@ export class CustomerDetailComponent implements OnInit {
           addressType: ['', Validators.required],
           unitNo: ['', Validators.required],
           street: ['', Validators.required],
-          postalCode: ['', Validators.required],
-          cityOld: ['', Validators.required],
+          postcode: ['', Validators.required],
+          oldCityName: ['', Validators.required],
           city: ['', Validators.required],
-          stateOld: ['', Validators.required],
+          oldStateName: ['', Validators.required],
           state: ['', Validators.required],
         })
       ]),
@@ -59,6 +59,7 @@ export class CustomerDetailComponent implements OnInit {
   get form() {
     return this.customerForm.controls;
   }
+
   get contactList() {
     return this.customerForm.get('contactList') as FormArray;
   }
@@ -71,7 +72,7 @@ export class CustomerDetailComponent implements OnInit {
     this.contactList.push(this.formBuilder.group({
       name: ['', Validators.required],
       contactNo: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
     }));
   }
 
@@ -86,10 +87,13 @@ export class CustomerDetailComponent implements OnInit {
       addressType: ['', Validators.required],
       unitNo: ['', Validators.required],
       street: ['', Validators.required],
-      postalCode: ['', Validators.required],
+      postcode: ['', Validators.required],
       city: ['', Validators.required],
       state: ['', Validators.required],
+      oldCityName: [''],
+      oldStateName: [''],
     }));
+    this.disableFields();
   }
 
   removeAddress(index: number) {
@@ -107,13 +111,15 @@ export class CustomerDetailComponent implements OnInit {
     this.uuid = this.activatedRoute.snapshot.params.uuid;
     if (this.uuid) {
       this.customerService.get(this.uuid).subscribe(response => {
-        console.log(response)
         if (response.isSuccess) {
           this.customerForm.patchValue({
             previousSysId: response.result.previousSysId,
-            name: response.result.name
+            name: response.result.name,
+            contactList: response.result.contactList,
+            addressList: response.result.addressList,
           });
           this.customerForm.controls['previousSysId'].disable();
+          this.disableFields();
         } else {
           this.sweetAlertService.showWarning('Warning', response.result.message);
         }
@@ -121,4 +127,25 @@ export class CustomerDetailComponent implements OnInit {
     }
   }
 
+  getCityStateByPostcode(index: number, postcode: string) {
+    this.commonService.getCityStateByPostcode(postcode).subscribe(response => {
+      if (response.isSuccess) {
+        this.addressList.controls[index].patchValue({
+          city: response.result.city,
+          state: response.result.state
+        });
+      } else {
+        this.sweetAlertService.showWarning('Not Found', 'City / State not found by postcode');
+      }
+    })
+  }
+
+  disableFields() {
+    this.addressList.controls.forEach((address: FormGroup) => {
+      address.get('oldCityName').disable();
+      address.get('oldStateName').disable();
+      address.get('city').disable();
+      address.get('state').disable();
+    })
+  }
 }

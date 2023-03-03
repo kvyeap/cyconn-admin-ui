@@ -5,14 +5,14 @@
         <div class="card-body">
           <form class="needs-validation" (ngSubmit)="validSubmit()" [formGroup]="customerForm">
             <div class="row mb-4">
-              <label for="previousSysId" class="col-sm-3 col-form-label">Previous ID (From Tank Management
+              <label for="previousSysId" class="col-sm-3 col-form-label text-end">Previous ID (From Tank Management
                 System)</label>
               <div class="col-sm-9">
                 <input type="text" class="form-control" id="previousSysId" formControlName="previousSysId" disabled>
               </div>
             </div>
             <div class="row mb-4">
-              <label for="name" class="col-sm-3 col-form-label">Customer Name*</label>
+              <label for="name" class="col-sm-3 col-form-label text-end">Customer Name*</label>
               <div class="col-sm-9">
                 <input type="text" class="form-control" id="name" formControlName="name"
                        [ngClass]="{'is-invalid': submit && form.name.errors}">
@@ -119,52 +119,40 @@
                       </div>
                       <div class="col-12 mt-2">
                         <div class="form-floating">
-                          <input type="text" class="form-control" id="{{'postalCode' + i}}" placeholder="Postal"
-                                 formControlName="postalCode">
-                          <label for="{{'postalCode' + i}}">Postal Code</label>
-                          <div *ngIf="submit && a.get('postalCode').errors" class="invalid-feedback">
-                            <span *ngIf="a.get('postalCode').errors.required">Required</span>
+                          <input type="text" class="form-control" id="{{'postcode' + i}}" placeholder="Postcode"
+                                 formControlName="postcode" (change)="getCityStateByPostcode(i, a.get('postcode').value)">
+                          <label for="{{'postcode' + i}}">Postcode</label>
+                          <div *ngIf="submit && a.get('postcode').errors" class="invalid-feedback">
+                            <span *ngIf="a.get('postcode').errors.required">Required</span>
                           </div>
                         </div>
                       </div>
                       <div class="col-6 mt-2">
                         <div class="form-floating">
-                          <input type="text" class="form-control" id="{{'cityOld' + i}}" placeholder="City"
-                                 formControlName="cityOld">
-                          <label for="{{'cityOld' + i}}">City (Old)</label>
+                          <input type="text" class="form-control" id="{{'oldCityName' + i}}" placeholder="City"
+                                 formControlName="oldCityName">
+                          <label for="{{'oldCityName' + i}}">City (Old)</label>
                         </div>
                       </div>
                       <div class="col-6 mt-2">
                         <div class="form-floating">
-                          <select id="city" class="form-select" formControlName="city"
-                                  [ngClass]="{ 'is-invalid': submit && a.get('city').errors }">
-                            <option [ngValue]="''">Choose...</option>
-                            <option *ngFor="let item of cityList" [ngValue]="item.id">{{item.name}}</option>
-                          </select>
+                          <input type="text" class="form-control" id="{{'city' + i}}" placeholder="City"
+                                 formControlName="city">
                           <label for="{{'city' + i}}">City</label>
-                          <div *ngIf="submit && a.get('city').errors" class="invalid-feedback">
-                            <span *ngIf="a.get('city').errors.required">Required</span>
-                          </div>
                         </div>
                       </div>
                       <div class="col-6 mt-2">
                         <div class="form-floating">
-                          <input type="text" class="form-control" id="{{'stateOld' + i}}" placeholder="State"
-                                 formControlName="stateOld">
-                          <label for="{{'stateOld' + i}}">State (Old)</label>
+                          <input type="text" class="form-control" id="{{'oldStateName' + i}}" placeholder="State"
+                                 formControlName="oldStateName">
+                          <label for="{{'oldStateName' + i}}">State (Old)</label>
                         </div>
                       </div>
                       <div class="col-6 mt-2">
                         <div class="form-floating">
-                          <select id="state" class="form-select" formControlName="state"
-                                  [ngClass]="{ 'is-invalid': submit && a.get('state').errors }">
-                            <option [ngValue]="''">Choose...</option>
-                            <option *ngFor="let item of stateList" [ngValue]="item.id">{{item.name}}</option>
-                          </select>
+                          <input type="text" class="form-control" id="{{'state' + i}}" placeholder="State"
+                                 formControlName="state">
                           <label for="{{'state' + i}}">State</label>
-                          <div *ngIf="submit && a.get('state').errors" class="invalid-feedback">
-                            <span *ngIf="a.get('state').errors.required">Required</span>
-                          </div>
                         </div>
                       </div>
                       <div class="col-12 mt-2">

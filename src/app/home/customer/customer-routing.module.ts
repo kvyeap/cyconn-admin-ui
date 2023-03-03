@@ -7,7 +7,7 @@ const routes: Routes = [
   {
     path: '',
     component: CustomerSearchComponent,
-    title: 'Search Customer',
+    title: 'Customer',
   },
   {
     path: 'add',

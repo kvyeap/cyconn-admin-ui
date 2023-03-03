@@ -21,6 +21,11 @@ export const MENU: MenuItem[] = [
     icon: 'bxs-cylinder',
     link: '/home/cylinder',
   },
+  {
+    label: 'Delivery Order',
+    icon: 'bxs-note',
+    link: '/home/delivery-order',
+  },
   // {
   //   label: 'DELIVERY ORDER',
   //   icon: 'bxs-briefcase',

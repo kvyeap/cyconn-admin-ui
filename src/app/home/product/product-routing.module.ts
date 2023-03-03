@@ -8,7 +8,7 @@ const routes: Routes = [
   {
     path: '',
     component: ProductSearchComponent,
-    title: 'Search Product',
+    title: 'Product',
   },
   {
     path: 'add',

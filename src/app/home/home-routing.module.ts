@@ -24,6 +24,12 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'delivery-order',
+    loadChildren: () => import('./delivery-order/delivery-order.module').then(m => m.DeliveryOrderModule),
+    title: 'Delivery Order',
+    canActivate: [AuthGuard]
+  },
+  {
     path: '**',
     redirectTo: 'product',
     pathMatch: 'full'

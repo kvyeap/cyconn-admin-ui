@@ -1,0 +1,109 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <form class="needs-validation" (ngSubmit)="doSubmit()" [formGroup]="doForm">
+            <div class="row mb-4">
+              <div class="col-6">
+                <div class="row">
+                  <label for="refNo" class="col-4 col-form-label text-end">*Reference No</label>
+                  <div class="col-8">
+                    <input type="text" class="form-control" id="refNo" formControlName="refNo"
+                           [ngClass]="{'is-invalid': submit && form.refNo.errors}">
+                    <div *ngIf="submit && form.refNo.errors" class="invalid-feedback">
+                      <span *ngIf="form.refNo.errors.required">Required</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <label for="refNo" class="col-4 col-form-label text-end">*Delivery Date</label>
+                  <div class="col-8">
+                    <input type="date" class="form-control" id="deliveryDate" formControlName="deliveryDate"
+                           [value]="form.deliveryDate"
+                           [ngClass]="{ 'is-invalid': submit && form.deliveryDate.errors }"
+                           required>
+                    <div *ngIf="submit && form.deliveryDate.errors" class="invalid-feedback">
+                      <span *ngIf="form.deliveryDate.errors.required">Required</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-4">
+              <label for="customer" class="col-2 col-form-label text-end">*Customer</label>
+              <div class="col-10">
+                <div class="input-group mb-3">
+                  <button class="btn btn-primary" type="button" (click)="openSearchCustomer()">Search</button>
+                  <input type="text" id="customer" class="form-control"
+                         [ngClass]="{'is-invalid': submit && form.customer.errors}" disabled>
+                </div>
+                <div *ngIf="submit && form.code.errors" class="invalid-feedback">
+                  <span *ngIf="form.code.errors.required">Required</span>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-4">
+              <div class="col-12">
+                <div class="card border border-light" formArrayName="productList">
+                  <div class="card-header">
+                    <h5>Product
+                      <button type="button" class="btn btn-outline-primary float-end mx-1" (click)="addProduct()">Add Items</button>
+                    </h5>
+                  </div>
+                  <div class="card-body">
+                    <div class="row mt-2 mb-4" [formGroupName]="i"
+                         *ngFor="let a of productList.controls; let i = index">
+                      <div class="col-1 p-0 align-self-center text-center fw-medium fs-5">
+                        {{i + 1}}
+                      </div>
+                      <div class="col-4">
+                        <input type="text" class="form-control" id="{{'product' + i}}" placeholder="Product"
+                               formControlName="product"
+                               [ngClass]="{'is-invalid': submit && a.errors}">
+                        <div *ngIf="submit && a.errors" class="invalid-feedback">
+                          <span *ngIf="a.get('product').errors.required">Required</span>
+                        </div>
+                      </div>
+                      <div class="col-2">
+                        <input type="number" class="form-control" id="{{'quantity' + i}}" placeholder="Quantity"
+                               formControlName="street"
+                               [ngClass]="{'is-invalid': submit && a.get('quantity').errors}">
+                        <div *ngIf="submit && a.get('quantity').errors" class="invalid-feedback">
+                          <span *ngIf="a.get('quantity').errors.required">Required</span>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <input type="text" class="form-control" id="{{'remark' + i}}" placeholder="Remark"
+                               formControlName="remark"
+                               [ngClass]="{'is-invalid': submit && a.get('remark').errors}">
+                        <div *ngIf="submit && a.get('remark').errors" class="invalid-feedback">
+                          <span *ngIf="a.get('remark').errors.required">Required</span>
+                        </div>
+                      </div>
+                      <div class="col-1">
+                        <button type="button" class="btn btn-outline-danger float-end mx-1"
+                                (click)="removeProduct(i)">Remove
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary w-md float-end">Save</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

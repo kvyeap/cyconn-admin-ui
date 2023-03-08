@@ -14,6 +14,7 @@ export class SweetAlertService {
 
   showSuccess(message: string) {
     Swal.fire({
+      allowOutsideClick: false,
       icon: 'success',
       title: 'Success',
       text: message
@@ -22,6 +23,7 @@ export class SweetAlertService {
 
   showError(message: string) {
     Swal.fire({
+      allowOutsideClick: false,
       icon: 'error',
       title: 'Error',
       text: message
@@ -30,14 +32,29 @@ export class SweetAlertService {
 
   showWarning(title: string, message: string) {
     Swal.fire({
+      allowOutsideClick: false,
       icon: 'warning',
       title: title,
       text: message
     });
   }
 
+  showWarningWithCallback(title: string, message: string, callback: (result: any) => void) {
+    Swal.fire({
+      allowOutsideClick: false,
+      icon: 'warning',
+      title: title,
+      text: message,
+      showConfirmButton: true,
+      showCancelButton: true
+    }).then((result) => {
+      callback(result)
+    });
+  }
+
   showErrorWithCallback(message: string, callback: (result: any) => void) {
     Swal.fire({
+      allowOutsideClick: false,
       icon: 'error',
       title: 'Error',
       text: message,
@@ -49,6 +66,7 @@ export class SweetAlertService {
 
   showSuccessWithCallback(message: string, callback: () => void) {
     Swal.fire({
+      allowOutsideClick: false,
       icon: 'success',
       title: 'Success',
       text: message,
@@ -59,6 +77,7 @@ export class SweetAlertService {
 
   showInfo(title: string, message: string) {
     Swal.fire({
+      allowOutsideClick: false,
       icon: 'info',
       title: title,
       text: message

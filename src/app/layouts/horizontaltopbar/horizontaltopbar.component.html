@@ -396,8 +396,8 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle arrow-none" *ngIf="!item.subItems" href="javascript: void(0);"
                  id="topnav-components" [routerLink]="item.link" role="button">
-                <i class="bx {{item.icon}} me-2"></i>{{ item.label | translate }} <div class="arrow-down"
-                                                                                       *ngIf="hasItems(item)"></div>
+                <i class="bx {{item.icon}} me-2"></i>{{ item.label | translate }}
+                <div class="arrow-down" *ngIf="hasItems(item)"></div>
               </a>
 
               <a *ngIf="item.subItems" class="nav-link dropdown-toggle arrow-none" (click)="onMenuClick($event)"

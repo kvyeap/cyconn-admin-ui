@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <lib-table [columns]="tableColumns"
+      <lib-basic-table [columns]="tableColumns"
                  [items]="items"
                  [currentPage]="currentPage"
                  [pageSize]="pageSize"
@@ -33,7 +33,7 @@
                  (pageChanged)="onPageChanged($event)"
                  (rowClicked)="onSelectedRow($event)"
                  [hidden]="!totalElements"
-      ></lib-table>
+      ></lib-basic-table>
 
     </div>
   </div>

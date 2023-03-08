@@ -10,16 +10,16 @@ import {
 import {RouterModule} from '@angular/router';
 import {LoaderComponent} from './loader/loader.component';
 import {BlogContentComponent} from './blog-content/blog-content.component';
-import {TableComponent} from './table/table.component';
+import {BasicTableComponent} from './basic-table/basic-table.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {PageTitleComponent} from './page-title/page-title.component';
 
 @NgModule({
   declarations: [
     LoaderComponent,
-    TableComponent,
+    BasicTableComponent,
     BlogContentComponent,
-    PageTitleComponent
+    PageTitleComponent,
   ],
   imports: [
     CommonModule,
@@ -32,7 +32,7 @@ import {PageTitleComponent} from './page-title/page-title.component';
     RouterModule,
     NgxPaginationModule
   ],
-  exports: [LoaderComponent, TableComponent, BlogContentComponent]
+  exports: [LoaderComponent, BasicTableComponent, BlogContentComponent]
 })
 
 export class LibModule {

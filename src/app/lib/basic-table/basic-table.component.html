@@ -1,6 +1,5 @@
 <div class="card rounded-3">
   <div class="card-body">
-
     <div class="row">
       <div class="col-6">
         <label class="float-start">Total Results : {{totalElements}}</label>
@@ -17,7 +16,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr class="" *ngFor="let item of items | paginate: { itemsPerPage: pageSize, currentPage: currentPage + 1, totalItems: totalElements }; let i = index" (click)="rowClicked.emit({data: item})">
+          <tr *ngFor="let item of items | paginate: { itemsPerPage: pageSize, currentPage: currentPage + 1, totalItems: totalElements }; let i = index" (click)="onRowClicked(item)">
             <td>{{ currentPage * pageSize + i + 1 }}</td>
             <td *ngFor="let col of columns">
               {{ item[col.key] }}

@@ -25,7 +25,6 @@ import {DashboardComponent} from './dashboard/dashboard.component';
     LeafletModule,
     DropzoneModule,
     CarouselModule,
-    NgxDatatableModule,
     NgbAlertModule,
     NgbTooltipModule,
     AgmCoreModule.forRoot({

@@ -24,4 +24,8 @@ export class ProductService {
   save(form: FormGroup): Observable<any> {
     return this.http.post(environment.apiUrl + '/product', form);
   }
+
+  getAll(): Observable<any> {
+    return this.http.get(environment.apiUrl + '/product/all');
+  }
 }

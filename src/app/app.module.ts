@@ -16,6 +16,7 @@ import {PublicModule} from './public/public.module';
 import {DecimalPipe} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {NgHttpLoaderModule} from 'ng-http-loader';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -69,7 +70,8 @@ export function createTranslateLoader(http: HttpClient): any {
     ScrollToModule.forRoot(),
     RouterModule,
     NgbModule,
-    NgHttpLoaderModule
+    NgHttpLoaderModule,
+    NgxPaginationModule
 
   ],
   bootstrap: [AppComponent],

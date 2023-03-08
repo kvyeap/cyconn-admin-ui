@@ -5,7 +5,8 @@
         <div class="card-body">
           <form class="row" [formGroup]="form" (submit)="doSearch()">
             <div class="col-9">
-              <input type="text" class="form-control" formControlName="searchText" placeholder="Enter name, phone number or email">
+              <input type="text" class="form-control" formControlName="searchText"
+                     placeholder="Enter product name or code">
             </div>
             <div class="col-3">
               <div class="btn-group w-100" role="group">
@@ -23,16 +24,16 @@
         </div>
       </div>
 
-      <lib-table [columns]="tableColumns"
-                 [items]="items"
-                 [currentPage]="currentPage"
-                 [pageSize]="pageSize"
-                 [totalPages]="totalPages"
-                 [totalElements]="totalElements"
-                 (pageChanged)="onPageChanged($event)"
-                 (rowClicked)="onSelectedRow($event)"
-                 [hidden]="!totalElements"
-      ></lib-table>
+      <lib-basic-table [columns]="tableColumns"
+                       [items]="items"
+                       [currentPage]="currentPage"
+                       [pageSize]="pageSize"
+                       [totalPages]="totalPages"
+                       [totalElements]="totalElements"
+                       (pageChanged)="onPageChanged($event)"
+                       (rowClicked)="onSelectedRow($event)"
+                       [hidden]="!totalElements"
+      ></lib-basic-table>
     </div>
   </div>
 </div>

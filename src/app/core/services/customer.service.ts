@@ -20,4 +20,8 @@ export class CustomerService {
     return this.http.get(environment.apiUrl + '/customer/' + uuid);
   }
 
+  getPreferredAddress(uuid: string): Observable<any> {
+    return this.http.get(environment.apiUrl + '/customer/preferred-address/' + uuid);
+  }
+
 }

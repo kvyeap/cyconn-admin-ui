@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {customerResponse} from '../../../mock/customerResponse';
 import {ColumnMode} from '@swimlane/ngx-datatable';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -7,6 +7,7 @@ import {CustomerService} from '../../../core/services/customer.service';
 import {SpinnerVisibilityService} from 'ng-http-loader';
 import {SweetAlertService} from '../../../core/services/sweetalert.service';
 import {ProductService} from '../../../core/services/product.service';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-customer-search',
@@ -17,11 +18,13 @@ export class CustomerSearchComponent implements OnInit {
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
+              public activeModal: NgbActiveModal,
               private spinner: SpinnerVisibilityService,
               private sweetAlertService: SweetAlertService,
               private customerService: CustomerService) {
   }
 
+  @Input() isModal: boolean;
   items: any[];
   tableColumns = [
     {title: 'Customer Name', key: 'name'},
@@ -73,7 +76,11 @@ export class CustomerSearchComponent implements OnInit {
   }
 
   onSelectedRow(item: any) {
-    this.router.navigate([item.data.uuid], {relativeTo: this.activatedRoute});
+    if (this.isModal) {
+      this.activeModal.close(item);
+    } else {
+      this.router.navigate([item.data.uuid], {relativeTo: this.activatedRoute});
+    }
   }
 
 

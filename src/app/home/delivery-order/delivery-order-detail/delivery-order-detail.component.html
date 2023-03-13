@@ -37,17 +37,49 @@
               <div class="col-10">
                 <div class="input-group mb-3">
                   <button class="btn btn-primary" type="button" (click)="openSearchCustomer()">Search</button>
-                  <input type="text" id="customer" class="form-control"
-                         [ngClass]="{'is-invalid': submit && form.customer.errors}" disabled>
+                  <input type="text" id="customer" class="form-control" [ngClass]="{'is-invalid': submit && form.customer.errors}" [value]="selectedCustomer?.name" disabled>
                 </div>
-                <div *ngIf="submit && form.code.errors" class="invalid-feedback">
-                  <span *ngIf="form.code.errors.required">Required</span>
+                <div *ngIf="submit && form.customer.errors" class="invalid-feedback">
+                  <span *ngIf="form.customer.errors.required">Required</span>
                 </div>
               </div>
             </div>
+            <div class="row" *ngIf="selectedCustomer?.address">
+              <div class="col-6">
+                <div class="card border border-secondary">
+                  <div class="card-header">
+                    <h5>Billing Address</h5>
+                  </div>
+                  <div class="card-body">
+                    <p>{{selectedCustomer.address.billingAddress.type}}</p>
+                    <p>{{selectedCustomer.address.billingAddress.unitNo}}</p>
+                    <p>{{selectedCustomer.address.billingAddress.street}}</p>
+                    <p>{{selectedCustomer.address.billingAddress.postcode}}</p>
+                    <p>{{selectedCustomer.address.billingAddress.city}}</p>
+                    <p>{{selectedCustomer.address.billingAddress.state}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="card border border-secondary">
+                  <div class="card-header">
+                    <h5>Delivery Address</h5>
+                  </div>
+                  <div class="card-body">
+                    <p>{{selectedCustomer.address.deliveryAddress.type}}</p>
+                    <p>{{selectedCustomer.address.deliveryAddress.unitNo}}</p>
+                    <p>{{selectedCustomer.address.deliveryAddress.street}}</p>
+                    <p>{{selectedCustomer.address.deliveryAddress.postcode}}</p>
+                    <p>{{selectedCustomer.address.deliveryAddress.city}}</p>
+                    <p>{{selectedCustomer.address.deliveryAddress.state}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="row mb-4">
               <div class="col-12">
-                <div class="card border border-light" formArrayName="productList">
+                <div class="card border border-secondary" formArrayName="productList">
                   <div class="card-header">
                     <h5>Product
                       <button type="button" class="btn btn-outline-primary float-end w-md"

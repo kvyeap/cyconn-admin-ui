@@ -5,6 +5,8 @@ import {SpinnerVisibilityService} from 'ng-http-loader';
 import {ProductService} from '../../../core/services/product.service';
 import {SweetAlertService} from '../../../core/services/sweetalert.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {CustomerSearchComponent} from '../../customer/customer-search/customer-search.component';
+import {CustomerService} from '../../../core/services/customer.service';
 
 @Component({
   selector: 'app-delivery-order-detail',
@@ -15,6 +17,7 @@ export class DeliveryOrderDetailComponent implements OnInit {
   doForm: FormGroup; // validation form
   submit: boolean;
   uuid: string;
+  selectedCustomer: any;
   productSelections: any[];
 
   constructor(private formBuilder: FormBuilder,
@@ -22,13 +25,14 @@ export class DeliveryOrderDetailComponent implements OnInit {
               private spinner: SpinnerVisibilityService,
               private productService: ProductService,
               private sweetAlertService: SweetAlertService,
+              private customerService: CustomerService,
               private activatedRoute: ActivatedRoute,
               private router: Router) {
 
     this.doForm = this.formBuilder.group({
       refNo: ['', [Validators.required]],
       customer: ['', [Validators.required]],
-      deliveryDate: ['', [Validators.required]],
+      deliveryDate: [new Date(), [Validators.required]],
       productList: this.formBuilder.array([
         // this.formBuilder.group({
         //   uuid: [''],
@@ -91,6 +95,20 @@ export class DeliveryOrderDetailComponent implements OnInit {
   }
 
   openSearchCustomer() {
+    this.submit = false;
+    const modalRef = this.modalService.open(CustomerSearchComponent, { size: 'xl'});
+    modalRef.componentInstance.isModal = true;
+    modalRef.componentInstance.activeModal = modalRef;
+    modalRef.result.then(response => {
+      this.selectedCustomer = response.data;
+      this.doForm.patchValue({
+        customer: this.selectedCustomer.uuid
+      })
+      this.customerService.getPreferredAddress(this.selectedCustomer.uuid).subscribe(response => {
+        this.selectedCustomer.address = response.result;
+        console.log(this.selectedCustomer)
+      })
+    });
 
   }
 
